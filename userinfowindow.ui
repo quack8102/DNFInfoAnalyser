@@ -1,0 +1,955 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UserInfoWindow</class>
+ <widget class="QWidget" name="UserInfoWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>267</width>
+    <height>269</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <kerning>false</kerning>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>结果</string>
+  </property>
+  <widget class="QLabel" name="selfAttrIcon">
+   <property name="geometry">
+    <rect>
+     <x>3</x>
+     <y>137</y>
+     <width>15</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="modelAttrIcon">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>137</y>
+     <width>15</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="modelAtkIcon">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>155</y>
+     <width>15</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="selfAtkIcon">
+   <property name="geometry">
+    <rect>
+     <x>3</x>
+     <y>155</y>
+     <width>15</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="maxCrtIcon">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>191</y>
+     <width>15</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="selfElementIcon">
+   <property name="geometry">
+    <rect>
+     <x>3</x>
+     <y>173</y>
+     <width>15</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="resources.qrc">:/resources/I_ATK.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="modelElementIcon">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>173</y>
+     <width>15</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="resources.qrc">:/resources/I_ATK.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="minCrtIcon">
+   <property name="geometry">
+    <rect>
+     <x>3</x>
+     <y>191</y>
+     <width>15</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="reformCntIcon">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>209</y>
+     <width>15</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="resources.qrc">:/resources/reform.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="entryCntIcon">
+   <property name="geometry">
+    <rect>
+     <x>3</x>
+     <y>209</y>
+     <width>15</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="resources.qrc">:/resources/entry.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="selfAttrLbl">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>139</y>
+     <width>47</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="modelAttrLbl">
+   <property name="geometry">
+    <rect>
+     <x>147</x>
+     <y>139</y>
+     <width>47</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="modelAtkLbl">
+   <property name="geometry">
+    <rect>
+     <x>147</x>
+     <y>157</y>
+     <width>47</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="selfAtkLbl">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>157</y>
+     <width>47</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="selfElementLbl">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>175</y>
+     <width>47</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string>角色属强</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="modelElementLbl">
+   <property name="geometry">
+    <rect>
+     <x>147</x>
+     <y>175</y>
+     <width>47</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string>模板属强</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="maxCrtLbl">
+   <property name="geometry">
+    <rect>
+     <x>147</x>
+     <y>193</y>
+     <width>47</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="minCrtLbl">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>193</y>
+     <width>47</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="entryCntLbl">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>211</y>
+     <width>47</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string>词条数</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="reformCntLbl">
+   <property name="geometry">
+    <rect>
+     <x>147</x>
+     <y>211</y>
+     <width>47</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string>改造数</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="entryCntInfo">
+   <property name="geometry">
+    <rect>
+     <x>69</x>
+     <y>211</y>
+     <width>58</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="maxCrtInfo">
+   <property name="geometry">
+    <rect>
+     <x>196</x>
+     <y>193</y>
+     <width>58</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="minCrtInfo">
+   <property name="geometry">
+    <rect>
+     <x>69</x>
+     <y>193</y>
+     <width>58</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="modelAtkInfo">
+   <property name="geometry">
+    <rect>
+     <x>196</x>
+     <y>157</y>
+     <width>58</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="modelAttrInfo">
+   <property name="geometry">
+    <rect>
+     <x>196</x>
+     <y>139</y>
+     <width>58</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="modelElementInfo">
+   <property name="geometry">
+    <rect>
+     <x>196</x>
+     <y>175</y>
+     <width>58</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="reformCntInfo">
+   <property name="geometry">
+    <rect>
+     <x>196</x>
+     <y>211</y>
+     <width>58</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="selfAtkInfo">
+   <property name="geometry">
+    <rect>
+     <x>69</x>
+     <y>157</y>
+     <width>58</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="selfAttrInfo">
+   <property name="geometry">
+    <rect>
+     <x>69</x>
+     <y>139</y>
+     <width>58</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="selfElementInfo">
+   <property name="geometry">
+    <rect>
+     <x>69</x>
+     <y>175</y>
+     <width>58</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="neckIcon">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>31</y>
+     <width>26</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="coatIcon">
+   <property name="geometry">
+    <rect>
+     <x>42</x>
+     <y>31</y>
+     <width>26</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="beltIcon">
+   <property name="geometry">
+    <rect>
+     <x>42</x>
+     <y>63</y>
+     <width>26</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="pantsIcon">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>63</y>
+     <width>26</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="shoesIcon">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>95</y>
+     <width>26</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="weaponIcon">
+   <property name="geometry">
+    <rect>
+     <x>42</x>
+     <y>95</y>
+     <width>26</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="braceletIcon">
+   <property name="geometry">
+    <rect>
+     <x>197</x>
+     <y>31</y>
+     <width>26</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="necklaceIcon">
+   <property name="geometry">
+    <rect>
+     <x>229</x>
+     <y>31</y>
+     <width>26</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ringIcon">
+   <property name="geometry">
+    <rect>
+     <x>229</x>
+     <y>63</y>
+     <width>26</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="supportIcon">
+   <property name="geometry">
+    <rect>
+     <x>197</x>
+     <y>63</y>
+     <width>26</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="magicstoneIcon">
+   <property name="geometry">
+    <rect>
+     <x>229</x>
+     <y>95</y>
+     <width>26</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="earringIcon">
+   <property name="geometry">
+    <rect>
+     <x>197</x>
+     <y>95</y>
+     <width>26</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="classLbl">
+   <property name="geometry">
+    <rect>
+     <x>71</x>
+     <y>113</y>
+     <width>121</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>7</pointsize>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="characterLbl">
+   <property name="geometry">
+    <rect>
+     <x>71</x>
+     <y>40</y>
+     <width>121</width>
+     <height>90</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignHCenter|Qt::AlignTop</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="resultLbl">
+   <property name="geometry">
+    <rect>
+     <x>6</x>
+     <y>238</y>
+     <width>258</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>宋体</family>
+     <pointsize>15</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 255, 255);
+background:transparent;</string>
+   </property>
+   <property name="text">
+    <string>100.0%</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <zorder>selfAttrIcon</zorder>
+  <zorder>modelAttrIcon</zorder>
+  <zorder>modelAtkIcon</zorder>
+  <zorder>selfAtkIcon</zorder>
+  <zorder>maxCrtIcon</zorder>
+  <zorder>selfElementIcon</zorder>
+  <zorder>modelElementIcon</zorder>
+  <zorder>minCrtIcon</zorder>
+  <zorder>reformCntIcon</zorder>
+  <zorder>entryCntIcon</zorder>
+  <zorder>selfAttrLbl</zorder>
+  <zorder>modelAttrLbl</zorder>
+  <zorder>modelAtkLbl</zorder>
+  <zorder>selfAtkLbl</zorder>
+  <zorder>selfElementLbl</zorder>
+  <zorder>modelElementLbl</zorder>
+  <zorder>maxCrtLbl</zorder>
+  <zorder>minCrtLbl</zorder>
+  <zorder>entryCntLbl</zorder>
+  <zorder>reformCntLbl</zorder>
+  <zorder>entryCntInfo</zorder>
+  <zorder>maxCrtInfo</zorder>
+  <zorder>minCrtInfo</zorder>
+  <zorder>modelAtkInfo</zorder>
+  <zorder>modelAttrInfo</zorder>
+  <zorder>modelElementInfo</zorder>
+  <zorder>reformCntInfo</zorder>
+  <zorder>selfAtkInfo</zorder>
+  <zorder>selfAttrInfo</zorder>
+  <zorder>selfElementInfo</zorder>
+  <zorder>neckIcon</zorder>
+  <zorder>coatIcon</zorder>
+  <zorder>beltIcon</zorder>
+  <zorder>pantsIcon</zorder>
+  <zorder>shoesIcon</zorder>
+  <zorder>weaponIcon</zorder>
+  <zorder>braceletIcon</zorder>
+  <zorder>necklaceIcon</zorder>
+  <zorder>ringIcon</zorder>
+  <zorder>supportIcon</zorder>
+  <zorder>magicstoneIcon</zorder>
+  <zorder>earringIcon</zorder>
+  <zorder>characterLbl</zorder>
+  <zorder>classLbl</zorder>
+  <zorder>resultLbl</zorder>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
