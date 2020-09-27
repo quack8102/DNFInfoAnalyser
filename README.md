@@ -2,7 +2,7 @@
 
 ## 功能简介及使用方法
 
-见COLG。
+见COLG。https://bbs.colg.cn/thread-7988501-1-1.html
 
 ## todo
 适配版本更新
