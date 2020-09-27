@@ -1,16 +1,17 @@
 #include "character.h"
 #include <QDebug>
+#include "settingdata.h"
 
 Character::Character() :
     classID(0), ampLV(0), weapon_refoLV(0), earring_refoLV(0),
     refineLV(0), reformLV(0), weaponType(0), armorType(0),
-    isPhy(false), isInd(false), isHero(false) {}
+    isPhy(false), isInd(false), isHero(false), mode(false) {}
 
 Character::Character(int id, int _attr, double crt, bool _isPhy, bool _isInd, int wType, int aType,
-                     const QVector<int> &vec, const QSet<QString> &qs, bool mode):
-    classID(id), ampLV(mode ? 10 : 7), weapon_refoLV(12), earring_refoLV(mode ? 12 : 11),
-    refineLV(8), reformLV(5), weaponType(wType), armorType(aType),
-    isPhy(_isPhy), isInd(_isInd), isHero(true),
+                     const QVector<int> &vec, const QSet<QString> &qs):
+    classID(id), ampLV(SettingData::ampLV), weapon_refoLV(SettingData::weapon_refoLV), earring_refoLV(SettingData::earring_refoLV),
+    refineLV(SettingData::refineLV), reformLV(SettingData::reformLV), weaponType(wType), armorType(aType),
+    isPhy(_isPhy), isInd(_isInd), isHero(SettingData::isHero), mode(true),
     activeLVOUT(101), passiveLVOUT(101), activeLVIN(101), passiveLVIN(101) {
     attr = _attr;
     minCrt = maxCrt = crt;
@@ -22,24 +23,19 @@ Character::Character(int id, int _attr, double crt, bool _isPhy, bool _isInd, in
     attr += 275;
     atk += 65;
     addAllElementOUT(13);
-    addActiveLevelOUT(1, 30, 1);
-    addActiveLevelOUT(1, 50, 5);
-    addPassiveLevelOUT(1, 50, 2);
     if (isInd) atk += 980;
-    if (mode) {
-        if (isPhy) attr += 1504;
-        else attr += 1444;
-        if (isInd) atk += 705;
-        else atk += 695;
-        addAllElementOUT(253);
-        inatk += 60;
-    } else {
-        attr += 1156;
-        atk += 447;
-        addAllElementOUT(231);
-        inatk += 40;
-    }
     //qDebug() << "char: " << classID << " " << isPhy << " " << isInd << " " << attr << " " << atk << " " << minCrt << " " << FIRE_OUT << endl;
+}
+
+Character::Character(const Character &ch):
+    classID(ch.classID), ampLV(SettingData::ampLV), weapon_refoLV(SettingData::weapon_refoLV), earring_refoLV(SettingData::earring_refoLV),
+    refineLV(SettingData::refineLV), reformLV(SettingData::reformLV), weaponType(ch.weaponType), armorType(ch.armorType),
+    isPhy(ch.isPhy), isInd(ch.isInd), isHero(SettingData::isHero), mode(false),
+    activeLVOUT(ch.activeLVOUT), passiveLVOUT(ch.passiveLVOUT), activeLVIN(ch.activeLVIN), passiveLVIN(ch.passiveLVIN) {
+    minCrt = maxCrt = 0;
+    attr = atk = inatk = 0;
+    FIRE_OUT = ICE_OUT = LIGHT_OUT = DARK_OUT = FIRE_IN = ICE_IN = LIGHT_IN = DARK_IN = 0;
+    entryCnt = reformCnt = 0;
 }
 
 void Character::addActiveLevelOUT(int l, int r, int c) {

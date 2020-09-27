@@ -11,7 +11,7 @@ void Class_52::operator() (Character &model) { // 圣武枪魂
     model.maxCrt += 0.5 * dl2;
     // 长枪精通
     if (model.weaponType == 30) {
-        int l1 = model.passiveLVOUT.at(15) + model.passiveLVIN.at(15) + 20;
+        int l1 = model.passiveLVOUT.at(15) + 20;
         if (l1 > 30) l1 = 30;
         model.atk *= (1 + (2.0 * l1 - 20.0) / 100);
     }

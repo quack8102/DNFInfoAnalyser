@@ -6,12 +6,12 @@ void Class_47::operator() (Character &model) { // 大地女神
     model.minCrt += dl1;
     model.maxCrt += dl1;
     // 盾牌
-    model.atk += 7;
+    if (model.mode) model.atk += 7;
     // 骑士信念
     int dl2 = model.passiveLVIN.at(15);
     model.minCrt += dl2;
     model.maxCrt += dl2;
-    int l1 = model.passiveLVOUT.at(15) + model.passiveLVIN.at(15) + 10;
+    int l1 = model.passiveLVOUT.at(15) + 10;
     if (l1 > 20) l1 = 20;
     model.atk *= (1 + (2.0 * l1 + 10.0) / 100);
 }

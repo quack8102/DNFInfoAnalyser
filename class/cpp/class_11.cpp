@@ -11,7 +11,7 @@ void Class_11::operator() (Character &model) { // 归元·街霸
     model.maxCrt += 0.5 * dl2;
     // 爪精通
     if (model.weaponType == 8) {
-        int l1 = model.passiveLVOUT.at(25) + model.passiveLVIN.at(25) + 20;
+        int l1 = model.passiveLVOUT.at(25) + 20;
         if (l1 > 30) l1 = 30;
         model.atk *= (1 + (2.0 * l1 - 9.0) / 100);
     }

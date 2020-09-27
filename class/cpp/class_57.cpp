@@ -11,7 +11,7 @@ void Class_57::operator() (Character &model) { // 巅峰狂徒
     model.maxCrt += 0.5 * dl2;
     // 重剑精通
     if (model.weaponType == 36) {
-        int l1 = model.passiveLVOUT.at(20) + model.passiveLVIN.at(20) + 21;
+        int l1 = model.passiveLVOUT.at(20) + 21;
         if (l1 > 30) l1 = 30;
         model.atk *= (1 + (2.5 * l1 - 25.0) / 100);
     }

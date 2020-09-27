@@ -9,7 +9,7 @@
 class Character {
   public:
     const int classID, ampLV, weapon_refoLV, earring_refoLV, refineLV, reformLV, weaponType, armorType; // 1-布甲，2-皮甲，3-轻甲，4-重甲，5-板甲
-    const bool isPhy, isInd, isHero;
+    const bool isPhy, isInd, isHero, mode;
     int inatk, FIRE_OUT, ICE_OUT, LIGHT_OUT, DARK_OUT, FIRE_IN, ICE_IN, LIGHT_IN, DARK_IN, entryCnt, reformCnt;
     double attr, minCrt, maxCrt, atk;
     QVector<int> activeLVOUT, passiveLVOUT, activeLVIN, passiveLVIN;
@@ -17,7 +17,8 @@ class Character {
     std::shared_ptr<QVector<int> > setCnt;
     Character();
     Character(int id, int _attr, double crt, bool _isPhy, bool _isInd, int wType, int aType,
-              const QVector<int> &vec, const QSet<QString> &qs, bool mode = true);
+              const QVector<int> &vec, const QSet<QString> &qs);
+    Character(const Character &ch);
     void addActiveLevelOUT(int l, int r, int c);
     void addPassiveLevelOUT(int l, int r, int c);
     void addActiveLevelIN(int l, int r, int c);

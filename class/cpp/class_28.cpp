@@ -12,7 +12,7 @@ void Class_28::operator() (Character &model) { // 风神
         int dl2 = model.passiveLVIN.at(15);
         model.minCrt += 0.5 * dl2;
         model.maxCrt += 0.5 * dl2;
-        int l1 = model.passiveLVOUT.at(15) + model.passiveLVIN.at(15) + 21;
+        int l1 = model.passiveLVOUT.at(15) + 21;
         if (l1 > 30) l1 = 30;
         model.atk *= (1 + (2.0 * l1 - 20.0) / 100);
     }

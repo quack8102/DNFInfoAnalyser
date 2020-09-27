@@ -11,7 +11,7 @@ void Class_7::operator() (Character &model) { // 极诣·契魔者
     int dl2 = model.passiveLVIN.at(30);
     model.minCrt += 0.5 * dl2;
     model.maxCrt += 0.5 * dl2;
-    int l1 = model.passiveLVOUT.at(30) + model.passiveLVIN.at(30) + 21;
+    int l1 = model.passiveLVOUT.at(30) + 21;
     if (l1 > 30) l1 = 30;
     model.atk *= (1 + (2.5 * l1 - 20.0) / 100);
 }

@@ -2,13 +2,9 @@
     <qresource prefix="/">
         <file>resources/match_template.png</file>
         <file>resources/otherlayout.csv</file>
-        <file>resources/selfinfo.png</file>
         <file>resources/selflayout.csv</file>
         <file>resources/setname.csv</file>
         <file>resources/char/char.csv</file>
-        <file>resources/char/char.png</file>
-        <file>resources/class/class.csv</file>
-        <file>resources/class/class.png</file>
         <file>resources/equipment/belt/belt.csv</file>
         <file>resources/equipment/belt/belt.png</file>
         <file>resources/equipment/bracelet/bracelet.csv</file>
@@ -88,7 +84,6 @@
         <file>resources/character/23.png</file>
         <file>resources/character/24.png</file>
         <file>resources/character/25.png</file>
-        <file>resources/character/26.PNG</file>
         <file>resources/character/27.png</file>
         <file>resources/character/28.png</file>
         <file>resources/character/29.png</file>
@@ -123,5 +118,9 @@
         <file>resources/character/58.png</file>
         <file>resources/character/59.png</file>
         <file>resources/character/60.png</file>
+        <file>resources/class.csv</file>
+        <file>resources/default.ini</file>
+        <file>resources/character/26.png</file>
+        <file>resources/char/char.png</file>
     </qresource>
 </RCC>

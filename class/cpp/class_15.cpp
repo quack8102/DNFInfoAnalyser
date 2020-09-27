@@ -12,7 +12,7 @@ void Class_15::operator() (Character &model) { // 归元·街霸
     model.maxCrt += 2 * l1 + 8;
     // 爪精通
     if (model.weaponType == 8) {
-        int l2 = model.passiveLVOUT.at(25) + model.passiveLVIN.at(25) + 20;
+        int l2 = model.passiveLVOUT.at(25) + 20;
         if (l2 > 30) l2 = 30;
         model.atk *= (1 + (l2 + 21.0) / 100);
     }

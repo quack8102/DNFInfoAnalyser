@@ -15,7 +15,7 @@ void Class_4::operator() (Character &model) { // 极诣·剑影
     model.maxCrt += 0.5 * dl3;
     // 剑影太刀精通
     if (model.weaponType == 2) {
-        int l1 = model.passiveLVOUT.at(15) + model.passiveLVIN.at(15) + 11;
+        int l1 = model.passiveLVOUT.at(15) + 11;
         if (l1 > 20) l1 = 20;
         model.atk *= (1 + 2.0 * l1 / 100);
     }

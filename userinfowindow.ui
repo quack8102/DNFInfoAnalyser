@@ -833,10 +833,10 @@ background:transparent;</string>
   <widget class="QLabel" name="classLbl">
    <property name="geometry">
     <rect>
-     <x>71</x>
-     <y>113</y>
-     <width>121</width>
-     <height>12</height>
+     <x>73</x>
+     <y>112</y>
+     <width>119</width>
+     <height>14</height>
     </rect>
    </property>
    <property name="font">
@@ -860,9 +860,9 @@ background:transparent;</string>
   <widget class="QLabel" name="characterLbl">
    <property name="geometry">
     <rect>
-     <x>71</x>
+     <x>73</x>
      <y>40</y>
-     <width>121</width>
+     <width>119</width>
      <height>90</height>
     </rect>
    </property>

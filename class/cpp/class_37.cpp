@@ -6,7 +6,7 @@ void Class_37::operator() (Character &model) { // 真龙星君
     model.minCrt += dl1;
     model.maxCrt += dl1;
     // 巨兵精通
-    int l1 = model.passiveLVOUT.at(20) + model.passiveLVIN.at(20) + 20;
+    int l1 = model.passiveLVOUT.at(20) + 20;
     if (l1 > 40) l1 = 40;
     model.atk *= (1 + (l1 + 10.0) / 100);
     // 式神之力

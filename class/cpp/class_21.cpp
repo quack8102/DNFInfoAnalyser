@@ -10,7 +10,7 @@ void Class_21::operator() (Character &model) { // 绯红玫瑰
         int dl2 = model.passiveLVIN.at(15);
         model.minCrt += dl2;
         model.maxCrt += dl2;
-        int l1 = model.passiveLVOUT.at(15) + model.passiveLVIN.at(15) + 10;
+        int l1 = model.passiveLVOUT.at(15) + 10;
         if (l1 > 20) l1 = 20;
         model.atk *= (1 + (2.0 * l1) / 100);
     }

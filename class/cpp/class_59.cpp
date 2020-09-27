@@ -11,7 +11,7 @@ void Class_59::operator() (Character &model) { // 缔造者
     // 自我觉醒
     model.atk *= 1.11;
     // 幻想之境
-    int l1 = model.passiveLVOUT.at(20) + model.passiveLVIN.at(20) + 10;
+    int l1 = model.passiveLVOUT.at(20) + 10;
     if (l1 > 20) l1 = 20;
     model.atk *= (1 + (1.5 * l1 - 5.0) / 100);
 }

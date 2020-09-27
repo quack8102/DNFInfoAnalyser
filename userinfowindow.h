@@ -18,10 +18,11 @@ class UserInfoWindow : public QWidget {
     Q_OBJECT
 
   public:
-    explicit UserInfoWindow(QWidget *parent, const cv::Mat &infoImg, QSystemTrayIcon *tray);
+    explicit UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTrayIcon *tray, bool mode);
     ~UserInfoWindow();
 
   protected:
+    void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject *obj, QEvent *event);
 
   private:
@@ -32,18 +33,22 @@ class UserInfoWindow : public QWidget {
     void refresh(Character &model);
     void updateIcon(const QString &key, QLabel *lbl, Character &model);
     void moveEvent(QMoveEvent *event);
+    QImage drawText(const QString &str, const QColor &color);
     int classID;
-    int STR, INT, P_ATK, M_ATK, I_ATK;
+    int STR, INT, P_ATK, M_ATK, I_ATK, ELE, FIRE, ICE, LIGHT, DARK;
     double P_CRT, M_CRT;
     bool isPhy, isInd;
     int attr, atk, aType, wType;
     double crt;
     QSet<QString> qs;
-    QVector<int> setCnt;
+    QVector<int> setCnt, pantsVec, ringVec, supportVec;
+    int pantsid, ringid, supportid;
     QMap<QString, std::pair<cv::Mat, int> > equipmentIcon;
     static QRect geo;
     static bool firstFlag;
-    QMenu *tmpMenu;
+    QMenu *classMenu, *pantsMenu, *ringMenu, *supportMenu;
+    bool mode;
+    cv::Mat saveImg;
 };
 
 #endif // USERINFOWINDOW_H

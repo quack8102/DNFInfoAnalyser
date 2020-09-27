@@ -100,6 +100,7 @@ SOURCES += \
     equipment/cpp/belt_21.cpp \
     equipment/cpp/belt_22.cpp \
     equipment/cpp/belt_23.cpp \
+    equipment/cpp/belt_24.cpp \
     equipment/cpp/belt_3.cpp \
     equipment/cpp/belt_4.cpp \
     equipment/cpp/belt_5.cpp \
@@ -175,6 +176,7 @@ SOURCES += \
     equipment/cpp/coat_46.cpp \
     equipment/cpp/coat_47.cpp \
     equipment/cpp/coat_48.cpp \
+    equipment/cpp/coat_49.cpp \
     equipment/cpp/coat_5.cpp \
     equipment/cpp/coat_6.cpp \
     equipment/cpp/coat_7.cpp \
@@ -193,6 +195,10 @@ SOURCES += \
     equipment/cpp/demoniclancer_18.cpp \
     equipment/cpp/demoniclancer_19.cpp \
     equipment/cpp/demoniclancer_2.cpp \
+    equipment/cpp/demoniclancer_20.cpp \
+    equipment/cpp/demoniclancer_21.cpp \
+    equipment/cpp/demoniclancer_22.cpp \
+    equipment/cpp/demoniclancer_23.cpp \
     equipment/cpp/demoniclancer_3.cpp \
     equipment/cpp/demoniclancer_4.cpp \
     equipment/cpp/demoniclancer_5.cpp \
@@ -239,6 +245,11 @@ SOURCES += \
     equipment/cpp/fighter_22.cpp \
     equipment/cpp/fighter_23.cpp \
     equipment/cpp/fighter_24.cpp \
+    equipment/cpp/fighter_25.cpp \
+    equipment/cpp/fighter_26.cpp \
+    equipment/cpp/fighter_27.cpp \
+    equipment/cpp/fighter_28.cpp \
+    equipment/cpp/fighter_29.cpp \
     equipment/cpp/fighter_3.cpp \
     equipment/cpp/fighter_4.cpp \
     equipment/cpp/fighter_5.cpp \
@@ -259,6 +270,10 @@ SOURCES += \
     equipment/cpp/gunblader_18.cpp \
     equipment/cpp/gunblader_19.cpp \
     equipment/cpp/gunblader_2.cpp \
+    equipment/cpp/gunblader_20.cpp \
+    equipment/cpp/gunblader_21.cpp \
+    equipment/cpp/gunblader_22.cpp \
+    equipment/cpp/gunblader_23.cpp \
     equipment/cpp/gunblader_3.cpp \
     equipment/cpp/gunblader_4.cpp \
     equipment/cpp/gunblader_5.cpp \
@@ -284,6 +299,11 @@ SOURCES += \
     equipment/cpp/gunner_22.cpp \
     equipment/cpp/gunner_23.cpp \
     equipment/cpp/gunner_24.cpp \
+    equipment/cpp/gunner_25.cpp \
+    equipment/cpp/gunner_26.cpp \
+    equipment/cpp/gunner_27.cpp \
+    equipment/cpp/gunner_28.cpp \
+    equipment/cpp/gunner_29.cpp \
     equipment/cpp/gunner_3.cpp \
     equipment/cpp/gunner_4.cpp \
     equipment/cpp/gunner_5.cpp \
@@ -309,6 +329,11 @@ SOURCES += \
     equipment/cpp/mage_22.cpp \
     equipment/cpp/mage_23.cpp \
     equipment/cpp/mage_24.cpp \
+    equipment/cpp/mage_25.cpp \
+    equipment/cpp/mage_26.cpp \
+    equipment/cpp/mage_27.cpp \
+    equipment/cpp/mage_28.cpp \
+    equipment/cpp/mage_29.cpp \
     equipment/cpp/mage_3.cpp \
     equipment/cpp/mage_4.cpp \
     equipment/cpp/mage_5.cpp \
@@ -348,6 +373,7 @@ SOURCES += \
     equipment/cpp/neck_22.cpp \
     equipment/cpp/neck_23.cpp \
     equipment/cpp/neck_24.cpp \
+    equipment/cpp/neck_25.cpp \
     equipment/cpp/neck_3.cpp \
     equipment/cpp/neck_4.cpp \
     equipment/cpp/neck_5.cpp \
@@ -394,7 +420,13 @@ SOURCES += \
     equipment/cpp/pants_25.cpp \
     equipment/cpp/pants_26.cpp \
     equipment/cpp/pants_27.cpp \
+    equipment/cpp/pants_28.cpp \
+    equipment/cpp/pants_29.cpp \
     equipment/cpp/pants_3.cpp \
+    equipment/cpp/pants_30.cpp \
+    equipment/cpp/pants_31.cpp \
+    equipment/cpp/pants_32.cpp \
+    equipment/cpp/pants_33.cpp \
     equipment/cpp/pants_4.cpp \
     equipment/cpp/pants_5.cpp \
     equipment/cpp/pants_6.cpp \
@@ -419,6 +451,11 @@ SOURCES += \
     equipment/cpp/priest_22.cpp \
     equipment/cpp/priest_23.cpp \
     equipment/cpp/priest_24.cpp \
+    equipment/cpp/priest_25.cpp \
+    equipment/cpp/priest_26.cpp \
+    equipment/cpp/priest_27.cpp \
+    equipment/cpp/priest_28.cpp \
+    equipment/cpp/priest_29.cpp \
     equipment/cpp/priest_3.cpp \
     equipment/cpp/priest_4.cpp \
     equipment/cpp/priest_5.cpp \
@@ -431,6 +468,11 @@ SOURCES += \
     equipment/cpp/ring_10.cpp \
     equipment/cpp/ring_11.cpp \
     equipment/cpp/ring_12.cpp \
+    equipment/cpp/ring_13.cpp \
+    equipment/cpp/ring_14.cpp \
+    equipment/cpp/ring_15.cpp \
+    equipment/cpp/ring_16.cpp \
+    equipment/cpp/ring_17.cpp \
     equipment/cpp/ring_2.cpp \
     equipment/cpp/ring_3.cpp \
     equipment/cpp/ring_4.cpp \
@@ -510,6 +552,7 @@ SOURCES += \
     equipment/cpp/shoes_25.cpp \
     equipment/cpp/shoes_26.cpp \
     equipment/cpp/shoes_27.cpp \
+    equipment/cpp/shoes_28.cpp \
     equipment/cpp/shoes_3.cpp \
     equipment/cpp/shoes_4.cpp \
     equipment/cpp/shoes_5.cpp \
@@ -523,6 +566,11 @@ SOURCES += \
     equipment/cpp/support_11.cpp \
     equipment/cpp/support_12.cpp \
     equipment/cpp/support_13.cpp \
+    equipment/cpp/support_14.cpp \
+    equipment/cpp/support_15.cpp \
+    equipment/cpp/support_16.cpp \
+    equipment/cpp/support_17.cpp \
+    equipment/cpp/support_18.cpp \
     equipment/cpp/support_2.cpp \
     equipment/cpp/support_3.cpp \
     equipment/cpp/support_4.cpp \
@@ -549,6 +597,11 @@ SOURCES += \
     equipment/cpp/swordman_22.cpp \
     equipment/cpp/swordman_23.cpp \
     equipment/cpp/swordman_24.cpp \
+    equipment/cpp/swordman_25.cpp \
+    equipment/cpp/swordman_26.cpp \
+    equipment/cpp/swordman_27.cpp \
+    equipment/cpp/swordman_28.cpp \
+    equipment/cpp/swordman_29.cpp \
     equipment/cpp/swordman_3.cpp \
     equipment/cpp/swordman_4.cpp \
     equipment/cpp/swordman_5.cpp \
@@ -569,6 +622,10 @@ SOURCES += \
     equipment/cpp/thief_18.cpp \
     equipment/cpp/thief_19.cpp \
     equipment/cpp/thief_2.cpp \
+    equipment/cpp/thief_20.cpp \
+    equipment/cpp/thief_21.cpp \
+    equipment/cpp/thief_22.cpp \
+    equipment/cpp/thief_23.cpp \
     equipment/cpp/thief_3.cpp \
     equipment/cpp/thief_4.cpp \
     equipment/cpp/thief_5.cpp \
@@ -595,7 +652,15 @@ SOURCES += \
     equipment/cpp/title_23.cpp \
     equipment/cpp/title_24.cpp \
     equipment/cpp/title_25.cpp \
+    equipment/cpp/title_26.cpp \
+    equipment/cpp/title_27.cpp \
+    equipment/cpp/title_28.cpp \
+    equipment/cpp/title_29.cpp \
     equipment/cpp/title_3.cpp \
+    equipment/cpp/title_30.cpp \
+    equipment/cpp/title_31.cpp \
+    equipment/cpp/title_32.cpp \
+    equipment/cpp/title_33.cpp \
     equipment/cpp/title_4.cpp \
     equipment/cpp/title_5.cpp \
     equipment/cpp/title_6.cpp \
@@ -604,6 +669,8 @@ SOURCES += \
     equipment/cpp/title_9.cpp \
     main.cpp \
     mainwindow.cpp \
+    settingdata.cpp \
+    settingpanel.cpp \
     userinfowindow.cpp
 
 HEADERS += \
@@ -692,6 +759,7 @@ HEADERS += \
     equipment/h/belt_21.h \
     equipment/h/belt_22.h \
     equipment/h/belt_23.h \
+    equipment/h/belt_24.h \
     equipment/h/belt_3.h \
     equipment/h/belt_4.h \
     equipment/h/belt_5.h \
@@ -767,6 +835,7 @@ HEADERS += \
     equipment/h/coat_46.h \
     equipment/h/coat_47.h \
     equipment/h/coat_48.h \
+    equipment/h/coat_49.h \
     equipment/h/coat_5.h \
     equipment/h/coat_6.h \
     equipment/h/coat_7.h \
@@ -785,6 +854,10 @@ HEADERS += \
     equipment/h/demoniclancer_18.h \
     equipment/h/demoniclancer_19.h \
     equipment/h/demoniclancer_2.h \
+    equipment/h/demoniclancer_20.h \
+    equipment/h/demoniclancer_21.h \
+    equipment/h/demoniclancer_22.h \
+    equipment/h/demoniclancer_23.h \
     equipment/h/demoniclancer_3.h \
     equipment/h/demoniclancer_4.h \
     equipment/h/demoniclancer_5.h \
@@ -831,6 +904,11 @@ HEADERS += \
     equipment/h/fighter_22.h \
     equipment/h/fighter_23.h \
     equipment/h/fighter_24.h \
+    equipment/h/fighter_25.h \
+    equipment/h/fighter_26.h \
+    equipment/h/fighter_27.h \
+    equipment/h/fighter_28.h \
+    equipment/h/fighter_29.h \
     equipment/h/fighter_3.h \
     equipment/h/fighter_4.h \
     equipment/h/fighter_5.h \
@@ -851,6 +929,10 @@ HEADERS += \
     equipment/h/gunblader_18.h \
     equipment/h/gunblader_19.h \
     equipment/h/gunblader_2.h \
+    equipment/h/gunblader_20.h \
+    equipment/h/gunblader_21.h \
+    equipment/h/gunblader_22.h \
+    equipment/h/gunblader_23.h \
     equipment/h/gunblader_3.h \
     equipment/h/gunblader_4.h \
     equipment/h/gunblader_5.h \
@@ -876,6 +958,11 @@ HEADERS += \
     equipment/h/gunner_22.h \
     equipment/h/gunner_23.h \
     equipment/h/gunner_24.h \
+    equipment/h/gunner_25.h \
+    equipment/h/gunner_26.h \
+    equipment/h/gunner_27.h \
+    equipment/h/gunner_28.h \
+    equipment/h/gunner_29.h \
     equipment/h/gunner_3.h \
     equipment/h/gunner_4.h \
     equipment/h/gunner_5.h \
@@ -901,6 +988,11 @@ HEADERS += \
     equipment/h/mage_22.h \
     equipment/h/mage_23.h \
     equipment/h/mage_24.h \
+    equipment/h/mage_25.h \
+    equipment/h/mage_26.h \
+    equipment/h/mage_27.h \
+    equipment/h/mage_28.h \
+    equipment/h/mage_29.h \
     equipment/h/mage_3.h \
     equipment/h/mage_4.h \
     equipment/h/mage_5.h \
@@ -940,6 +1032,7 @@ HEADERS += \
     equipment/h/neck_22.h \
     equipment/h/neck_23.h \
     equipment/h/neck_24.h \
+    equipment/h/neck_25.h \
     equipment/h/neck_3.h \
     equipment/h/neck_4.h \
     equipment/h/neck_5.h \
@@ -986,7 +1079,13 @@ HEADERS += \
     equipment/h/pants_25.h \
     equipment/h/pants_26.h \
     equipment/h/pants_27.h \
+    equipment/h/pants_28.h \
+    equipment/h/pants_29.h \
     equipment/h/pants_3.h \
+    equipment/h/pants_30.h \
+    equipment/h/pants_31.h \
+    equipment/h/pants_32.h \
+    equipment/h/pants_33.h \
     equipment/h/pants_4.h \
     equipment/h/pants_5.h \
     equipment/h/pants_6.h \
@@ -1011,6 +1110,11 @@ HEADERS += \
     equipment/h/priest_22.h \
     equipment/h/priest_23.h \
     equipment/h/priest_24.h \
+    equipment/h/priest_25.h \
+    equipment/h/priest_26.h \
+    equipment/h/priest_27.h \
+    equipment/h/priest_28.h \
+    equipment/h/priest_29.h \
     equipment/h/priest_3.h \
     equipment/h/priest_4.h \
     equipment/h/priest_5.h \
@@ -1023,6 +1127,11 @@ HEADERS += \
     equipment/h/ring_10.h \
     equipment/h/ring_11.h \
     equipment/h/ring_12.h \
+    equipment/h/ring_13.h \
+    equipment/h/ring_14.h \
+    equipment/h/ring_15.h \
+    equipment/h/ring_16.h \
+    equipment/h/ring_17.h \
     equipment/h/ring_2.h \
     equipment/h/ring_3.h \
     equipment/h/ring_4.h \
@@ -1102,6 +1211,7 @@ HEADERS += \
     equipment/h/shoes_25.h \
     equipment/h/shoes_26.h \
     equipment/h/shoes_27.h \
+    equipment/h/shoes_28.h \
     equipment/h/shoes_3.h \
     equipment/h/shoes_4.h \
     equipment/h/shoes_5.h \
@@ -1115,6 +1225,11 @@ HEADERS += \
     equipment/h/support_11.h \
     equipment/h/support_12.h \
     equipment/h/support_13.h \
+    equipment/h/support_14.h \
+    equipment/h/support_15.h \
+    equipment/h/support_16.h \
+    equipment/h/support_17.h \
+    equipment/h/support_18.h \
     equipment/h/support_2.h \
     equipment/h/support_3.h \
     equipment/h/support_4.h \
@@ -1141,6 +1256,11 @@ HEADERS += \
     equipment/h/swordman_22.h \
     equipment/h/swordman_23.h \
     equipment/h/swordman_24.h \
+    equipment/h/swordman_25.h \
+    equipment/h/swordman_26.h \
+    equipment/h/swordman_27.h \
+    equipment/h/swordman_28.h \
+    equipment/h/swordman_29.h \
     equipment/h/swordman_3.h \
     equipment/h/swordman_4.h \
     equipment/h/swordman_5.h \
@@ -1161,6 +1281,10 @@ HEADERS += \
     equipment/h/thief_18.h \
     equipment/h/thief_19.h \
     equipment/h/thief_2.h \
+    equipment/h/thief_20.h \
+    equipment/h/thief_21.h \
+    equipment/h/thief_22.h \
+    equipment/h/thief_23.h \
     equipment/h/thief_3.h \
     equipment/h/thief_4.h \
     equipment/h/thief_5.h \
@@ -1187,7 +1311,15 @@ HEADERS += \
     equipment/h/title_23.h \
     equipment/h/title_24.h \
     equipment/h/title_25.h \
+    equipment/h/title_26.h \
+    equipment/h/title_27.h \
+    equipment/h/title_28.h \
+    equipment/h/title_29.h \
     equipment/h/title_3.h \
+    equipment/h/title_30.h \
+    equipment/h/title_31.h \
+    equipment/h/title_32.h \
+    equipment/h/title_33.h \
     equipment/h/title_4.h \
     equipment/h/title_5.h \
     equipment/h/title_6.h \
@@ -1196,10 +1328,13 @@ HEADERS += \
     equipment/h/title_9.h \
     factory.h \
     mainwindow.h \
+    settingdata.h \
+    settingpanel.h \
     userinfowindow.h
 
 FORMS += \
     mainwindow.ui \
+    settingpanel.ui \
     userinfowindow.ui
 
 # Default rules for deployment.

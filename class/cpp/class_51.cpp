@@ -10,7 +10,7 @@ void Class_51::operator() (Character &model) { // 不灭战神
     model.maxCrt += 20 + 10;
     // 战戟精通
     if (model.weaponType == 31) {
-        int l1 = model.passiveLVOUT.at(15) + model.passiveLVIN.at(15) + 10;
+        int l1 = model.passiveLVOUT.at(15) + 10;
         if (l1 > 20) l1 = 20;
         model.atk *= (1 + (2.0 * l1 + 10.0) / 100);
     }

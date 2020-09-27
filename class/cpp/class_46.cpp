@@ -15,7 +15,7 @@ void Class_46::operator() (Character &model) { // 幽冥
     model.maxCrt += l1;
     // 暗杀之匕首精通
     if (model.weaponType == 26) {
-        int l2 = model.passiveLVOUT.at(20) + model.passiveLVIN.at(20) + 20;
+        int l2 = model.passiveLVOUT.at(20) + 20;
         if (l2 > 30) l2 = 30;
         model.atk *= (1 + (2.5 * l2 - 20.0) / 100);
     }

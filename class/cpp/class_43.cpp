@@ -12,7 +12,7 @@ void Class_43::operator() (Character &model) { // 月影星劫
     model.maxCrt += 2 * l1 + 2;
     // 武器精通
     if (model.weaponType == 26 || model.weaponType == 27) { // 双剑 匕首
-        int l2 = model.passiveLVOUT.at(20) + model.passiveLVIN.at(20) + 21;
+        int l2 = model.passiveLVOUT.at(20) + 21;
         if (l2 > 30) l2 = 30;
         model.atk *= (1 + (2.8 * l2 - 20.1) / 100);
     }

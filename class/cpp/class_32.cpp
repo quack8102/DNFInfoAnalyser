@@ -18,13 +18,13 @@ void Class_32::operator() (Character &model) { // 伊斯塔战灵
     if (model.weaponType == 16) { // 矛
         model.minCrt += 0.6 * dl1;
         model.maxCrt += 0.6 * dl1;
-        int l2 = model.passiveLVOUT.at(20) + model.passiveLVIN.at(20) + 20;
+        int l2 = model.passiveLVOUT.at(20) + 20;
         if (l2 > 30) l2 = 30;
         model.atk *= (1 + (2.0 * l2 - 20.0) / 100);
     } else if (model.weaponType == 17) { // 棍棒 数据可能有误
         model.minCrt += 0.6 * dl1;
         model.maxCrt += 0.6 * dl1;
-        int l2 = model.passiveLVOUT.at(20) + model.passiveLVIN.at(20) + 20;
+        int l2 = model.passiveLVOUT.at(20) + 20;
         if (l2 > 30) l2 = 30;
         model.atk *= (1 + (2.0 * l2 - 20.0) / 100);
     }

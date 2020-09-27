@@ -11,7 +11,7 @@ void Class_18::operator() (Character &model) { // 重霄·枪炮师
     model.maxCrt += 1.6 * dl2;
     // 重火器精通
     if (model.weaponType == 14) {
-        int l1 = model.passiveLVOUT.at(15) + model.passiveLVIN.at(15) + 11;
+        int l1 = model.passiveLVOUT.at(15) + 11;
         if (l1 > 20) l1 = 20;
         model.atk *= (1 + l1 / 100.0);
     }

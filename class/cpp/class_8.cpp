@@ -10,8 +10,10 @@ void Class_8::operator() (Character &model) { // 极诣·流浪武士
     // 花开寒影
     model.maxCrt += 15;
     // 副武器可装备
-    model.attr += int(0.1 * 81);
-    model.atk += int(0.1 * (1143 + 828));
+    if (model.mode) {
+        model.attr += int(0.1 * 81);
+        model.atk += int(0.1 * (1143 + 828));
+    }
 }
 
 REGIST(Class_8, QObject::tr("8"));

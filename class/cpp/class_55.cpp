@@ -7,7 +7,7 @@ void Class_55::operator() (Character &model) { // 铁血统帅
     model.maxCrt += dl1;
     // 长刀精通
     if (model.weaponType == 34) {
-        int l1 = model.passiveLVOUT.at(15) + model.passiveLVIN.at(15) + 11;
+        int l1 = model.passiveLVOUT.at(15) + 11;
         if (l1 > 20) l1 = 20;
         model.atk *= (1 + (2.0 * l1 + 5.0) / 100);
     }

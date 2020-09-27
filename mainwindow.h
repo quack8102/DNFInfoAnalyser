@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "userinfowindow.h"
+#include "settingpanel.h"
 #include <QMenu>
 
 QT_BEGIN_NAMESPACE
@@ -31,6 +32,8 @@ class MainWindow : public QWidget {
 
     void actionActivated();
 
+    void childWindowClosed();
+
   private:
     Ui::MainWindow *ui;
     void addDNF(const HWND &hwnd);
@@ -41,17 +44,20 @@ class MainWindow : public QWidget {
     void readCSV(QVector<T> &vec, const QString &path);
     void addEquipment(const QString &name);
     void addWeapon(const QString &name);
-    void showChildWindow(const cv::Mat &srcImg);
+    void showChildWindow(const cv::Mat &srcImg, bool mode);
     void activeTray(QSystemTrayIcon::ActivationReason reason);
+    QImage drawChar(const QString &str, const QImage &triangle);
+    QImage drawText(const QString &str);
 
     QSystemTrayIcon *mainTray;
     QMenu *mainMenu;
     QMenu *windowMenu;
-    QAction *enableAction;
     QAction *grabAction;
     QAction *openAction;
     QAction *setAction;
+    QAction *updateAction;
     QAction *exitAction;
+    SettingPanel *sp;
 };
 
 #endif // MAINWINDOW_H

@@ -10,7 +10,7 @@ void Class_44::operator() (Character &model) { // 亡魂主宰
     model.minCrt += 0.5 * dl2;
     model.maxCrt += 0.5 * dl2;
     // 黑暗之环
-    int l1 = model.passiveLVIN.at(20) + model.passiveLVOUT.at(20) + 10;
+    int l1 = model.passiveLVOUT.at(20) + 10;
     if (l1 > 20) l1 = 20;
     model.DARK_OUT += 3 * l1 + 48;
 }

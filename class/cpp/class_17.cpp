@@ -16,7 +16,7 @@ void Class_17::operator() (Character &model) { // 重霄·漫游枪手
         int dl2 = model.passiveLVIN.at(15);
         model.minCrt += dl2;
         model.maxCrt += dl2;
-        int l2 = model.passiveLVOUT.at(15) + model.passiveLVIN.at(15) + 10;
+        int l2 = model.passiveLVOUT.at(15) + 10;
         if (l2 > 20) l2 = 20;
         model.atk *= (1 + (2.0 * l2) / 100);
     }

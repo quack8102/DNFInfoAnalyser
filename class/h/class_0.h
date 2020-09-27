@@ -3,7 +3,7 @@
 
 #include "equipment.h"
 
-class Class_0 : public Equipment { // ﻿极诣·剑魂
+class Class_0 : public Equipment { // 极诣·剑魂
 public:
 	Class_0(){}
 	void operator() (Character &model);
