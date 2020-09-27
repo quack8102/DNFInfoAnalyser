@@ -6,11 +6,14 @@
 
 ## todo
 适配版本更新
+
 计算奶装？
+
 计算伤害？
 
 ## 技术栈
 qt
+
 opencv
 
 ## 目录结构
@@ -33,6 +36,10 @@ factory 工厂类
 main 程序入口
 
 mainwindow 主窗口（即托盘）
+
+settingdata 设置数据
+
+settingpanel 设置面板
 
 userinfowindow 包含分析结果的窗口
 
