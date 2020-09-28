@@ -459,12 +459,16 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
         setActions();
         connect(tmpAction1, &QAction::triggered, [ = ]() {
             classID = 9;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            collectAttr(attr, atk, crt);
             setActions();
             Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
             refresh(model);
         });
         connect(tmpAction2, &QAction::triggered, [ = ]() {
             classID = 13;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            collectAttr(attr, atk, crt);
             setActions();
             Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
             refresh(model);
@@ -489,12 +493,16 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
         setActions();
         connect(tmpAction1, &QAction::triggered, [ = ]() {
             classID = 10;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            collectAttr(attr, atk, crt);
             setActions();
             Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
             refresh(model);
         });
         connect(tmpAction2, &QAction::triggered, [ = ]() {
             classID = 14;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            collectAttr(attr, atk, crt);
             setActions();
             Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
             refresh(model);
@@ -527,6 +535,7 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
         setActions();
         connect(tmpAction1, &QAction::triggered, [ = ]() {
             classID = 11;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
             isPhy = true;
             collectAttr(attr, atk, crt);
             setActions();
@@ -535,6 +544,7 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
         });
         connect(tmpAction2, &QAction::triggered, [ = ]() {
             classID = 11;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
             isPhy = false;
             collectAttr(attr, atk, crt);
             setActions();
@@ -543,6 +553,7 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
         });
         connect(tmpAction3, &QAction::triggered, [ = ]() {
             classID = 15;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
             isPhy = true;
             collectAttr(attr, atk, crt);
             setActions();
@@ -551,6 +562,7 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
         });
         connect(tmpAction4, &QAction::triggered, [ = ]() {
             classID = 15;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
             isPhy = false;
             collectAttr(attr, atk, crt);
             setActions();
@@ -577,12 +589,16 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
         setActions();
         connect(tmpAction1, &QAction::triggered, [ = ]() {
             classID = 12;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            collectAttr(attr, atk, crt);
             setActions();
             Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
             refresh(model);
         });
         connect(tmpAction2, &QAction::triggered, [ = ]() {
             classID = 16;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            collectAttr(attr, atk, crt);
             setActions();
             Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
             refresh(model);
