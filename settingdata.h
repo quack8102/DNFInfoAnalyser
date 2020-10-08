@@ -8,6 +8,7 @@
 #include <QFontDatabase>
 #include "mainwindow.h"
 #include "character.h"
+#include "messagewindow.h"
 
 class AttrData {
   public:
@@ -28,10 +29,12 @@ class SettingData {
     static MyGlobalShortCut *shortcut;
     static MyMouseHook *hook;
     static MainWindow *mw;
+    static MessageWindow *messageWindow;
     static QVector<AttrData> vec;
     static void readfile();
     static void savefile();
     static bool setflag(const QString &key);
+    static void sendMessage(const QString &str);
 };
 
 #endif // SETTINGDATA_H

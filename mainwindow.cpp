@@ -210,19 +210,7 @@ MainWindow::MainWindow(QWidget *parent)
     eventLoop.exec();
 
     if (SettingData::setflag("use")) {
-        QMessageBox messageBox(QMessageBox::Icon::Information,
-                               "使用指引", "欢迎您首次使用DNF面板计算器，需要打开快速使用页面吗？",
-                               QMessageBox::Yes | QMessageBox::No, NULL);
-        int result = messageBox.exec();
-        switch (result) {
-        case QMessageBox::Yes:
-            QDesktopServices::openUrl(QUrl(QLatin1String("https://quack8102.gitee.io/#/quickstart")));
-            break;
-        case QMessageBox::No:
-            break;
-        default:
-            break;
-        }
+        SettingData::sendMessage(tr("<p>欢迎您使用DNF面板计算器，点击<a href=\"https://quack8102.gitee.io/#/quickstart\">这里</a>查看快速使用教程。</p>"));
     }
 
     qInfo() << "MainWindow loaded.";

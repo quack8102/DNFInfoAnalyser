@@ -63,6 +63,7 @@ QVector<AttrData> SettingData::vec;
 MyGlobalShortCut *SettingData::shortcut = NULL;
 MyMouseHook *SettingData::hook = NULL;
 MainWindow *SettingData::mw = NULL;
+MessageWindow *SettingData::messageWindow = NULL;
 
 void SettingData::readfile() {
     vec.clear();
@@ -153,4 +154,13 @@ bool SettingData::setflag(const QString &key) {
     outFile.write(qba);
     outFile.close();
     return true;
+}
+
+void SettingData::sendMessage(const QString &str) {
+    if (messageWindow != NULL) {
+        messageWindow->close();
+    }
+    messageWindow = new MessageWindow();
+    messageWindow->setMessage(str);
+    messageWindow->show();
 }

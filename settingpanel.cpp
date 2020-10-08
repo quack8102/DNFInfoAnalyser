@@ -20,19 +20,7 @@ SettingPanel::SettingPanel(QWidget *parent) :
     SettingData::hook->unInstallHook();
     delete SettingData::hook;
     if (SettingData::setflag("set")) {
-        QMessageBox messageBox(QMessageBox::Icon::Information,
-                               "使用指引", "这是您首次打开设置面板，需要打开使用说明页面吗？",
-                               QMessageBox::Yes | QMessageBox::No, NULL);
-        int result = messageBox.exec();
-        switch (result) {
-        case QMessageBox::Yes:
-            QDesktopServices::openUrl(QUrl(QLatin1String("https://quack8102.gitee.io/#/settingpanel")));
-            break;
-        case QMessageBox::No:
-            break;
-        default:
-            break;
-        }
+        SettingData::sendMessage(tr("<p>这是您首次打开设置面板，点击<a href=\"https://quack8102.gitee.io/#/settingpanel\">这里</a>打开说明页面。</p>"));
     }
     refresh();
 }

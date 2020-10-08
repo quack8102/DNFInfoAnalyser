@@ -670,6 +670,7 @@ SOURCES += \
     equipment/cpp/title_9.cpp \
     main.cpp \
     mainwindow.cpp \
+    messagewindow.cpp \
     settingdata.cpp \
     settingpanel.cpp \
     userinfowindow.cpp
@@ -1330,12 +1331,14 @@ HEADERS += \
     equipment/h/title_9.h \
     factory.h \
     mainwindow.h \
+    messagewindow.h \
     settingdata.h \
     settingpanel.h \
     userinfowindow.h
 
 FORMS += \
     mainwindow.ui \
+    messagewindow.ui \
     settingpanel.ui \
     userinfowindow.ui
 

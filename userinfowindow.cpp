@@ -778,79 +778,37 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
     Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
     refresh(model);
 
+    qInfo() << "UserinfoWindow sucessfully loaded.";
+
+    this->show();
+
+    QString messageText;
+
     if (SettingData::setflag("result")) {
-        QMessageBox messageBox(QMessageBox::Icon::Information,
-                               "使用指引", "这是您首次打开结果窗口，需要打开说明页面吗？",
-                               QMessageBox::Yes | QMessageBox::No, NULL);
-        int result = messageBox.exec();
-        switch (result) {
-        case QMessageBox::Yes:
-            QDesktopServices::openUrl(QUrl(QLatin1String("https://quack8102.gitee.io/#/resultwindow")));
-            break;
-        case QMessageBox::No:
-            break;
-        default:
-            break;
-        }
+        messageText += tr("<p>这是您首次打开结果窗口，点击<a href=\"https://quack8102.gitee.io/#/resultwindow\">这里</a>打开说明页面。</p>");
     }
 
     if (switchclass) {
         if (SettingData::setflag("switchclass")) {
-            QMessageBox messageBox(QMessageBox::Icon::Information,
-                                   "使用指引", "这是您首次检测到可以切换的同名职业，需要打开说明页面吗？",
-                                   QMessageBox::Yes | QMessageBox::No, NULL);
-            int result = messageBox.exec();
-            switch (result) {
-            case QMessageBox::Yes:
-                QDesktopServices::openUrl(QUrl(QLatin1String("https://quack8102.gitee.io/#/resultwindow?id=switchclass")));
-                break;
-            case QMessageBox::No:
-                break;
-            default:
-                break;
-            }
+            messageText += tr("<p>这是您首次检测到可以切换的同名职业，点击<a href=\"https://quack8102.gitee.io/#/resultwindow?id=switchclass\">这里</a>打开说明页面。</p>");
         }
     }
 
     if (siroco) {
         if (SettingData::setflag("siroco")) {
-            QMessageBox messageBox(QMessageBox::Icon::Information,
-                                   "使用指引", "这是您首次检测到可以切换的希罗克装备，需要打开说明页面吗？",
-                                   QMessageBox::Yes | QMessageBox::No, NULL);
-            int result = messageBox.exec();
-            switch (result) {
-            case QMessageBox::Yes:
-                QDesktopServices::openUrl(QUrl(QLatin1String("https://quack8102.gitee.io/#/resultwindow?id=siroco")));
-                break;
-            case QMessageBox::No:
-                break;
-            default:
-                break;
-            }
+            messageText += tr("<p>这是您首次检测到希洛克装备，点击<a href=\"https://quack8102.gitee.io/#/resultwindow?id=siroco\">这里</a>打开说明页面。</p>");
         }
     }
 
     if (switchtype) {
         if (SettingData::setflag("switchtype")) {
-            QMessageBox messageBox(QMessageBox::Icon::Information,
-                                   "使用指引", "这是您首次检测到可以切换物理魔法或防具精通的职业，需要打开说明页面吗？",
-                                   QMessageBox::Yes | QMessageBox::No, NULL);
-            int result = messageBox.exec();
-            switch (result) {
-            case QMessageBox::Yes:
-                QDesktopServices::openUrl(QUrl(QLatin1String("https://quack8102.gitee.io/#/resultwindow?id=switchtype")));
-                break;
-            case QMessageBox::No:
-                break;
-            default:
-                break;
-            }
+            messageText += tr("<p>这是您首次检测到可以切换物理魔法或防具精通的职业，点击<a href=\"https://quack8102.gitee.io/#/resultwindow?id=switchtype\">这里</a>打开说明页面。</p>");
         }
     }
 
-    qInfo() << "UserinfoWindow sucessfully loaded.";
-
-    this->show();
+    if (!messageText.isEmpty()) {
+        SettingData::sendMessage(messageText);
+    }
 }
 
 bool UserInfoWindow::eventFilter(QObject *obj, QEvent *event) {
