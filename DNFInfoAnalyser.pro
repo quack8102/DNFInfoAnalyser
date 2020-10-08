@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,7 +9,7 @@ CONFIG += c++11
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-
+DEFINES += QT_MESSAGELOGCONTEXT
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     MyGlobalShortCut/MyGlobalShortCut.cpp \
     MyGlobalShortCut/MyWinEventFilter.cpp \
+    MyGlobalShortCut/mymousehook.cpp \
     attrcalculator.cpp \
     character.cpp \
     class/cpp/class_0.cpp \
@@ -676,6 +677,7 @@ SOURCES += \
 HEADERS += \
     MyGlobalShortCut/MyGlobalShortCut.h \
     MyGlobalShortCut/MyWinEventFilter.h \
+    MyGlobalShortCut/mymousehook.h \
     attrcalculator.h \
     character.h \
     class/h/class_0.h \

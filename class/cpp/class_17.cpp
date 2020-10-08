@@ -5,12 +5,12 @@ void Class_17::operator() (Character &model) { // 重霄·漫游枪手
     int dl1 = model.passiveLVIN.at(20);
     model.minCrt += dl1;
     model.maxCrt += dl1;
-    // 死亡印记 数据可能有误
-    QVector<double> data{0, 1.6, 2.6, 3.8, 4.9, 6.1, 7.2, 8.3, 9.4, 10.6, 11.7, 12.7, 13.9, 15, 16.2, 17.3, 18.4, 19.5, 20.7, 21.8, 22.8, 24, 25.1, 26.3, 27.4, 28.5, 29.6, 30.8, 31.9, 32.9, 34.1, 35.2, 36.4, 37.5, 38.6, 39.7, 40.9, 42, 43, 44.2, 45.3};
+    // 死亡印记
+    QVector<int> data{0, 16, 26, 38, 49, 61, 72, 83, 94, 106, 117, 127, 139, 150, 162, 173, 184, 195, 207, 218, 228, 240, 251, 263, 274, 285, 296, 308, 319, 330, 341, 352, 364, 375, 386, 397, 409, 420, 431, 442, 453};
     int l1 = model.passiveLVOUT.at(48) + model.passiveLVIN.at(48) + 20;
     if (l1 > 40) l1 = 40;
-    model.minCrt += data.at(l1);
-    model.maxCrt += data.at(l1);
+    model.minCrt += data.at(l1) / 10.0;
+    model.maxCrt += data.at(l1) / 10.0;
     // 左轮奥义
     if (model.weaponType == 11) {
         int dl2 = model.passiveLVIN.at(15);

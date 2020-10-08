@@ -9,6 +9,7 @@
 #include <QMenu>
 #include "character.h"
 #include "csvdataparser.h"
+#include <QJsonObject>
 
 namespace Ui {
 class UserInfoWindow;
@@ -25,6 +26,9 @@ class UserInfoWindow : public QWidget {
     void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject *obj, QEvent *event);
 
+  signals:
+    void userinfoWindowClosed();
+
   private:
     Ui::UserInfoWindow *ui;
     QSystemTrayIcon *mainTray;
@@ -34,6 +38,7 @@ class UserInfoWindow : public QWidget {
     void updateIcon(const QString &key, QLabel *lbl, Character &model);
     void moveEvent(QMoveEvent *event);
     QImage drawText(const QString &str, const QColor &color);
+    QString className;
     int classID;
     int STR, INT, P_ATK, M_ATK, I_ATK, ELE, FIRE, ICE, LIGHT, DARK;
     double P_CRT, M_CRT;
@@ -49,6 +54,7 @@ class UserInfoWindow : public QWidget {
     QMenu *classMenu, *pantsMenu, *ringMenu, *supportMenu;
     bool mode;
     cv::Mat saveImg;
+    QJsonObject outQJO;
 };
 
 #endif // USERINFOWINDOW_H

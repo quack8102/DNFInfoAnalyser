@@ -25,19 +25,6 @@
    <property name="title">
     <string>系统设置</string>
    </property>
-   <widget class="QCheckBox" name="hotkeyCKB">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>90</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>快捷键</string>
-    </property>
-   </widget>
    <widget class="QCheckBox" name="autosaveCKB">
     <property name="geometry">
      <rect>
@@ -54,12 +41,37 @@
    <widget class="QLineEdit" name="hotkeyEdit">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>99</x>
       <y>20</y>
-      <width>100</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
+   </widget>
+   <widget class="QComboBox" name="hotkeyCMB">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>快捷键</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>鼠标</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>无</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">

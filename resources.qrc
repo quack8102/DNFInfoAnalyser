@@ -118,9 +118,11 @@
         <file>resources/character/58.png</file>
         <file>resources/character/59.png</file>
         <file>resources/character/60.png</file>
-        <file>resources/class.csv</file>
-        <file>resources/default.ini</file>
         <file>resources/character/26.png</file>
         <file>resources/char/char.png</file>
+        <file>resources/class/class.csv</file>
+        <file>resources/class/classname.png</file>
+        <file>resources/buffbook.png</file>
+        <file>resources/default.ini</file>
     </qresource>
 </RCC>

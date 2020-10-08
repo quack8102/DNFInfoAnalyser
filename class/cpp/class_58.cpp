@@ -12,7 +12,9 @@ void Class_58::operator() (Character &model) { // 未来开拓者
     if (model.weaponType == 37) {
         int l1 = model.passiveLVOUT.at(20) + 20;
         if (l1 > 30) l1 = 30;
-        model.atk *= (1 + (2.0 * l1 - 15.0) / 100);
+        int ratio = 1;
+        if (model.equipName->contains(QObject::tr("谍影：超级核心"))) ratio = 2;
+        model.atk *= (1 + ratio * (2.0 * l1 - 15.0) / 100);
     }
 }
 

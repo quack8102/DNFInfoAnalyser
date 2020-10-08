@@ -24,14 +24,14 @@ class SettingPanel : public QWidget {
     bool eventFilter(QObject *obj, QEvent *event);
 
   signals:
-    void windowClosed();
+    void settingPanelClosed();
   private slots:
-    void on_hotkeyCKB_stateChanged(int arg1);
     void on_saveBtn_clicked();
     void on_exitBtn_clicked();
     void on_modifyBtn_clicked();
     void on_bufferCKB_stateChanged(int arg1);
     void on_recoverBtn_clicked();
+    void on_hotkeyCMB_currentIndexChanged(int index);
 };
 
 #endif // SETTINGPANEL_H

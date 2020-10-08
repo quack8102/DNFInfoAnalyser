@@ -17,6 +17,10 @@
 #include <QPainter>
 #include <QDir>
 #include <QDateTime>
+#include <QJsonArray>
+#include <QtConcurrent>
+#include <QJsonDocument>
+#include <QDesktopServices>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/imgproc/types_c.h>
 #include <opencv2/highgui/highgui.hpp>
@@ -25,7 +29,7 @@ using namespace cv;
 using namespace std;
 
 extern QVector<ClassData> classVec;
-extern Mat templateImg, selfInfoImg, classNameImg, charImg, bracketL, bracketR;
+extern Mat templateImg, buffBookImg, classNameImg, charImg;
 extern QVector<LayoutData> selfVec, otherVec;
 extern QVector<SetData> setVec;
 extern QVector<CharData> charVec;
@@ -38,7 +42,7 @@ const int classPosX = 64, classPosY = 195, classWidth = 170, classHeight = 14;
 const int titlePosX = 108, titlePosY = 5, titleWidth = 49, titleHeight = 14;
 const int iconWidth = 28, iconHeight = 28;
 const int charWidth = 12, charHeight = 14;
-const double PSNRthreshold = 40.0;
+const double PSNRthreshold = 10.0;
 
 QRect UserInfoWindow::geo;
 bool UserInfoWindow::firstFlag = true;
@@ -48,6 +52,10 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
     ui(new Ui::UserInfoWindow),
     mainTray(tray),
     setCnt(51) {
+
+    qInfo() << "Trying to load the UserInfoWindow. rows = " << srcImg.rows
+            << ", cols = " << srcImg.cols << ", mode = " << mode;
+
     classMenu = NULL;
     pantsMenu = NULL;
     ringMenu = NULL;
@@ -58,7 +66,7 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
     setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint);
     setFixedSize(this->width(), this->height());
     setWindowFlags(this->windowFlags() | Qt::WindowStaysOnTopHint);
-    setAttribute(Qt::WA_DeleteOnClose);
+    //setAttribute(Qt::WA_DeleteOnClose);
 
     if (!firstFlag) setGeometry(geo);
 
@@ -78,24 +86,28 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
         Rect selectInfo = Rect(matchLocation.x - matchIconPosX, matchLocation.y - matchIconPosY, userInfoWidth, userInfoHeight);
         infoImg = srcImg(selectInfo);
     } catch (cv::Exception &e) {
-        //QMessageBox::warning(NULL, "分析失败", "检测不到角色面板");
+        qWarning() << "Failed to find userinfo. " << e.what();
         mainTray->showMessage("分析失败", //消息窗口标题
                               "检测不到角色面板", //消息内容
                               QSystemTrayIcon::MessageIcon::Warning, //消息窗口图标
                               1000); //消息窗口显示时长
+        this->mode = false;
         this->close();
         return;
     }
 
     saveImg = infoImg.clone();
-    Rect selectClass;
+    QtConcurrent::run([this]() {
+        QPixmap tmpQPm = CVA::cvMatToQPixmap(saveImg);
+        tmpQPm.save("./log/info.png");
+    });
     Mat classImg;
     try {
-        selectClass = Rect(classPosX, classPosY, classWidth, classHeight);
-        Mat tmpMat = infoImg(selectClass);
-        for (int i = 0; i < tmpMat.rows; ++i) {
-            uchar *data = tmpMat.ptr<uchar>(i);
-            for (int j = 0; j < tmpMat.cols * 3; j += 3) {
+        Rect selectClass = Rect(classPosX, classPosY, classWidth, classHeight);
+        classImg = infoImg(selectClass);
+        for (int i = 0; i < classImg.rows; ++i) {
+            uchar *data = classImg.ptr<uchar>(i);
+            for (int j = 0; j < classImg.cols * 3; j += 3) {
                 if (data[j] < 220 || data[j + 1] < 220 || data[j + 2] < 220) {
                     data[j] = data[j + 1] = data[j + 2] = 0;
                 } else {
@@ -103,78 +115,73 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
                 }
             }
         }
-        //imwrite("tmpMat.png", tmpMat);
-        Point p_l = CVA::matchTemplate(tmpMat, bracketL);
-        Point p_r = CVA::matchTemplate(tmpMat, bracketR);
-        selectClass = Rect(p_l.x, p_l.y, p_r.x - p_l.x + bracketR.cols, classHeight);
-        classImg = tmpMat(selectClass);
-        //imwrite("classImg.png", classImg);
+        QtConcurrent::run([&classImg]() {
+            QPixmap tmpQPm = CVA::cvMatToQPixmap(classImg);
+            tmpQPm.save("./log/classname.png");
+        });
     } catch (cv::Exception &e) {
-        //QMessageBox::critical(NULL, "分析失败", "检测职业时出现错误");
+        qWarning() << "Failed to select or binarize classname. " << e.what();
         mainTray->showMessage("分析失败", //消息窗口标题
                               "检测职业时出现错误", //消息内容
-                              QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
+                              QSystemTrayIcon::MessageIcon::Warning, //消息窗口图标
                               1000); //消息窗口显示时长
+        this->mode = false;
         this->close();
         return;
     }
 
-    Point p;
     try {
-        p = CVA::matchTemplate(classNameImg, classImg);
-    } catch (cv::Exception &e) {
-        //QMessageBox::critical(NULL, "分析失败", "检测职业时出现错误");
-        mainTray->showMessage("分析失败", //消息窗口标题
-                              "检测职业时出现错误", //消息内容
-                              QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
-                              1000); //消息窗口显示时长
-        this->close();
-        return;
-    }
-//qDebug() << "match point: (" << p.x << "," << p.y << ")" << endl;
-    classID = p.y / titleHeight;
-
-    Rect selectTitle;
-    Mat titleImg;
-    try {
-        selectTitle = Rect(titlePosX, titlePosY, titleWidth, titleHeight);
-        titleImg = infoImg(selectTitle);
-    } catch (cv::Exception &e) {
-        //QMessageBox::critical(NULL, "分析失败", "检测标题时出现错误");
-        mainTray->showMessage("分析失败", //消息窗口标题
-                              "检测标题时出现错误", //消息内容
-                              QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
-                              1000); //消息窗口显示时长
-        this->close();
-        return;
-    }
-    for (int i = 0; i < titleImg.rows; ++i) {
-        uchar *data = titleImg.ptr<uchar>(i);
-        for (int j = 0; j < titleImg.cols * 3; j += 3) {
-            if (data[j] > 60 && data[j + 1] > 60 && data[j + 2] > 60) {
-                data[j] = data[j + 1] = data[j + 2] = 255;
-            } else {
-                data[j] = data[j + 1] = data[j + 2] = 0;
+        int _y = 0;
+        double score = 0;
+        for (int i = 0; i < 61; ++i) {
+            Mat m_name = classNameImg(Rect(0, _y, 96, 14)), m_oldname = classNameImg(Rect(96, _y, 96, 14));
+            Point p = CVA::matchTemplate(classImg, m_name), oldp = CVA::matchTemplate(classImg, m_oldname);
+            double tmpscore = CVA::getPSNR(classImg(Rect(p.x, p.y, 96, 14)), m_name);
+            if (tmpscore > score) {
+                score = tmpscore;
+                classID = i;
+                className = classVec[i].name;
             }
+            tmpscore = CVA::getPSNR(classImg(Rect(oldp.x, oldp.y, 96, 14)), m_oldname);
+            if (tmpscore > score) {
+                score = tmpscore;
+                classID = i;
+                className = classVec[i].oldname;
+            }
+            _y += 14;
         }
+    } catch (cv::Exception &e) {
+        qWarning() << "Failed to match classname. Check 'classname.png'. " << e.what();
+        mainTray->showMessage("分析失败", //消息窗口标题
+                              "检测职业时出现错误", //消息内容
+                              QSystemTrayIcon::MessageIcon::Warning, //消息窗口图标
+                              1000); //消息窗口显示时长
+        this->mode = false;
+        this->close();
+        return;
     }
+
     double score = 0.0;
     try {
-        score = CVA::getPSNR(titleImg, selfInfoImg);
+        Point p = CVA::matchTemplate(infoImg, buffBookImg);
+        score = CVA::getPSNR(infoImg(Rect(p.x, p.y, 16, 18)), buffBookImg);
+        score /= (1 + (p.x - 35) * (p.x - 35));
+        score /= (1 + (p.y - 187) * (p.y - 187));
     } catch (cv::Exception &e) {
-        //QMessageBox::critical(NULL, "分析失败", "检测标题时出现错误");
+        qWarning() << "Failed to match buffbook. Check 'info.png'. " << e.what();
         mainTray->showMessage("分析失败", //消息窗口标题
-                              "检测标题时出现错误", //消息内容
-                              QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
+                              "判断是否为他人面板时出现错误", //消息内容
+                              QSystemTrayIcon::MessageIcon::Warning, //消息窗口图标
                               1000); //消息窗口显示时长
+        this->mode = false;
         this->close();
         return;
     }
 
-    //qDebug() << score << endl;
+    qDebug() << "PSNR score: " << score;
     QVector<LayoutData> *layout;
-    if (score > PSNRthreshold) layout = &selfVec;
-    else layout = &otherVec;
+    if (score > PSNRthreshold) layout = &otherVec;
+    else layout = &selfVec;
 
     equipmentInfoVec[5] = weaponInfoVec[classVec[classID].weaponType];
     equipmentImgVec[5] = weaponImgVec[classVec[classID].weaponType];
@@ -188,11 +195,12 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
             try {
                 mp = CVA::matchTemplate(equipmentImgVec[data.id], infoImg(data.getSelect()));
             } catch (cv::Exception &e) {
-                //QMessageBox::critical(NULL, "分析失败", "检测装备时出现错误");
+                qWarning() << "Failed to detect equipment named " << data.name.toStdString().c_str() << ". Check 'info.png'. " << e.what();
                 mainTray->showMessage("分析失败", //消息窗口标题
                                       "检测装备时出现错误", //消息内容
-                                      QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
+                                      QSystemTrayIcon::MessageIcon::Warning, //消息窗口图标
                                       1000); //消息窗口显示时长
+                this->mode = false;
                 this->close();
                 return;
             }
@@ -213,10 +221,12 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
                 tmpMat = infoImg(data.getSelect());
             } catch (cv::Exception &e) {
                 //QMessageBox::critical(NULL, "分析失败", "检测属性时出现错误");
+                qWarning() << "Failed to select attribute named " << data.name.toStdString().c_str() << ". Check 'info.png'. " << e.what();
                 mainTray->showMessage("分析失败", //消息窗口标题
                                       "检测属性时出现错误", //消息内容
-                                      QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
+                                      QSystemTrayIcon::MessageIcon::Warning, //消息窗口图标
                                       1000); //消息窗口显示时长
+                this->mode = false;
                 this->close();
                 return;
             }
@@ -230,6 +240,10 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
                     }
                 }
             }
+            QtConcurrent::run([&tmpMat, &data]() {
+                QPixmap tmpQPm = CVA::cvMatToQPixmap(tmpMat);
+                tmpQPm.save("./log/" + QString::number(data.id) + ".png");
+            });
             QString ss = "";
             try {
                 Mat gray;
@@ -251,10 +265,13 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
                     ss = ss + v.second;
             } catch (cv::Exception &e) {
                 //QMessageBox::critical(NULL, "分析失败", "检测属性时出现错误");
+                qWarning() << "Failed to detect attribute named " << data.name.toStdString().c_str()
+                           << ". Check '" + QString::number(data.id) + ".png'. " << e.what();
                 mainTray->showMessage("分析失败", //消息窗口标题
                                       "检测属性时出现错误", //消息内容
-                                      QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
+                                      QSystemTrayIcon::MessageIcon::Warning, //消息窗口图标
                                       1000); //消息窗口显示时长
+                this->mode = false;
                 this->close();
                 return;
             }
@@ -276,7 +293,8 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
             }
         }
     }
-    //qDebug() << infoString;
+
+    qDebug() << "user info detected";
 //qDebug() << STR << " " << INT << " " << P_ATK << " " << M_ATK << " " << I_ATK << " " << P_CRT << " " << M_CRT << endl;
 
     decideFlags(classVec[classID], isPhy, isInd, aType);
@@ -287,8 +305,11 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
     ui->ringIcon->installEventFilter(this);
     ui->supportIcon->installEventFilter(this);
 
+    bool siroco = false, switchclass = false, switchtype = false;
+
     if (qs.contains(tr("无形：奈克斯的灵魂仪服")) || qs.contains(tr("无形：暗杀者的灵魂残念")) || qs.contains(tr("无形：卢克西的灵魂狂气"))
             || qs.contains(tr("无形：守门人的灵魂甲胄")) || qs.contains(tr("无形：洛多斯的灵魂意志"))) {
+        siroco = true;
         pantsMenu = new QMenu(this);
         pantsid = -1;
         pantsVec.clear();
@@ -335,6 +356,7 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
 
     if (qs.contains(tr("无欲：奈克斯的梦幻黑暗")) || qs.contains(tr("无欲：暗杀者的梦幻痕迹")) || qs.contains(tr("无欲：卢克西的梦幻约定"))
             || qs.contains(tr("无欲：守门人的梦幻邪念")) || qs.contains(tr("无欲：洛多斯的梦幻根源"))) {
+        siroco = true;
         ringMenu = new QMenu(this);
         ringid = 0;
         ringVec.clear();
@@ -380,6 +402,7 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
 
     if (qs.contains(tr("幻影：奈克斯的黑色之息")) || qs.contains(tr("幻影：暗杀者的黑色剑鞘")) || qs.contains(tr("幻影：卢克西的黑色鬼神缚"))
             || qs.contains(tr("幻影：守门人的黑色面具")) || qs.contains(tr("幻影：洛多斯的黑色核心"))) {
+        siroco = true;
         supportMenu = new QMenu(this);
         supportid = 0;
         supportVec.clear();
@@ -441,7 +464,8 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
         });
     }
 
-    if (classID == 9 || classID == 13) {
+    if (className == classVec[9].name) {
+        switchclass = true;
         classMenu = new QMenu(this);
         QAction *tmpAction1 = new QAction(this);
         QAction *tmpAction2 = new QAction(this);
@@ -475,7 +499,8 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
         });
     }
 
-    if (classID == 10 || classID == 14) {
+    if (className == classVec[10].name) {
+        switchclass = true;
         classMenu = new QMenu(this);
         QAction *tmpAction1 = new QAction(this);
         QAction *tmpAction2 = new QAction(this);
@@ -509,7 +534,8 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
         });
     }
 
-    if (classID == 11 || classID == 15) {
+    if (className == classVec[11].name) {
+        switchclass = true;
         classMenu = new QMenu(this);
         QAction *tmpAction1 = new QAction(this);
         QAction *tmpAction2 = new QAction(this);
@@ -571,7 +597,8 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
         });
     }
 
-    if (classID == 12 || classID == 16) {
+    if (className == classVec[12].name) {
+        switchclass = true;
         classMenu = new QMenu(this);
         QAction *tmpAction1 = new QAction(this);
         QAction *tmpAction2 = new QAction(this);
@@ -605,7 +632,8 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
         });
     }
 
-    if (classID == 20 || classID == 24 || classID == 32) {
+    if (classID == 20 || classID == 24 || classID == 32 || className == classVec[11].oldname || className == classVec[15].oldname) {
+        switchtype = true;
         classMenu = new QMenu(this);
         QAction *tmpAction1 = new QAction(this);
         QAction *tmpAction2 = new QAction(this);
@@ -638,6 +666,7 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
     }
 
     if (classID == 37) {
+        switchtype = true;
         classMenu = new QMenu(this);
         QAction *tmpAction1 = new QAction(this);
         QAction *tmpAction2 = new QAction(this);
@@ -686,6 +715,7 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
     }
 
     if (classID == 60) {
+        switchtype = true;
         classMenu = new QMenu(this);
         QAction *tmpAction1 = new QAction(this);
         QAction *tmpAction2 = new QAction(this);
@@ -747,6 +777,79 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
 
     Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
     refresh(model);
+
+    if (SettingData::setflag("result")) {
+        QMessageBox messageBox(QMessageBox::Icon::Information,
+                               "使用指引", "这是您首次打开结果窗口，需要打开说明页面吗？",
+                               QMessageBox::Yes | QMessageBox::No, NULL);
+        int result = messageBox.exec();
+        switch (result) {
+        case QMessageBox::Yes:
+            QDesktopServices::openUrl(QUrl(QLatin1String("https://quack8102.gitee.io/#/resultwindow")));
+            break;
+        case QMessageBox::No:
+            break;
+        default:
+            break;
+        }
+    }
+
+    if (switchclass) {
+        if (SettingData::setflag("switchclass")) {
+            QMessageBox messageBox(QMessageBox::Icon::Information,
+                                   "使用指引", "这是您首次检测到可以切换的同名职业，需要打开说明页面吗？",
+                                   QMessageBox::Yes | QMessageBox::No, NULL);
+            int result = messageBox.exec();
+            switch (result) {
+            case QMessageBox::Yes:
+                QDesktopServices::openUrl(QUrl(QLatin1String("https://quack8102.gitee.io/#/resultwindow?id=switchclass")));
+                break;
+            case QMessageBox::No:
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+    if (siroco) {
+        if (SettingData::setflag("siroco")) {
+            QMessageBox messageBox(QMessageBox::Icon::Information,
+                                   "使用指引", "这是您首次检测到可以切换的希罗克装备，需要打开说明页面吗？",
+                                   QMessageBox::Yes | QMessageBox::No, NULL);
+            int result = messageBox.exec();
+            switch (result) {
+            case QMessageBox::Yes:
+                QDesktopServices::openUrl(QUrl(QLatin1String("https://quack8102.gitee.io/#/resultwindow?id=siroco")));
+                break;
+            case QMessageBox::No:
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+    if (switchtype) {
+        if (SettingData::setflag("switchtype")) {
+            QMessageBox messageBox(QMessageBox::Icon::Information,
+                                   "使用指引", "这是您首次检测到可以切换物理魔法或防具精通的职业，需要打开说明页面吗？",
+                                   QMessageBox::Yes | QMessageBox::No, NULL);
+            int result = messageBox.exec();
+            switch (result) {
+            case QMessageBox::Yes:
+                QDesktopServices::openUrl(QUrl(QLatin1String("https://quack8102.gitee.io/#/resultwindow?id=switchtype")));
+                break;
+            case QMessageBox::No:
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+    qInfo() << "UserinfoWindow sucessfully loaded.";
+
     this->show();
 }
 
@@ -786,24 +889,29 @@ void UserInfoWindow::closeEvent(QCloseEvent *event) {
         QDateTime current_date_time = QDateTime::currentDateTime();
         QString suffix = current_date_time.toString("yyyy_MMdd_hhmmsszzz");
         QDir dir;
+        if (!dir.exists("save")) {
+            QDir dir;
+            dir.mkdir("save");
+        }
         if (!dir.exists("./save/" + suffix)) {
             if (dir.mkpath("./save/" + suffix)) {
                 QPixmap sqpm = CVA::cvMatToQPixmap(saveImg);
                 sqpm.save("./save/" + suffix + "/character_" + suffix + ".png");
-                QFile file("./save/" + suffix + "/result_" + suffix + ".txt");
+                QFile file("./save/" + suffix + "/result_" + suffix + ".json");
                 if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                    //qDebug() << "Can't open the file!" << endl;
-                    QMessageBox::critical(NULL, "错误", "文件打开失败");
+                    qCritical() << "Failed to save json file.";
+                    mainTray->showMessage("保存失败", //消息窗口标题
+                                          "文件打开失败", //消息内容
+                                          QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
+                                          1000); //消息窗口显示时长
                 } else {
-                    QTextStream stream(&file);
-                    //stream.setCodec("UTF-8");
-                    stream << classVec.at(classID).name << " " << ui->resultLbl->text() << endl
-                           << ui->selfAttrInfo->text() << " " << ui->modelAttrInfo->text() << endl
-                           << ui->selfAtkInfo->text() << " " << ui->modelAtkInfo->text() << endl
-                           << ui->selfElementInfo->text() << " " << ui->modelElementInfo->text() << endl;
+                    QJsonDocument qjd(outQJO);
+                    QByteArray qba = qjd.toJson();
+                    file.write(qba);
                     file.close();
                 }
             } else {
+                qCritical() << "Failed to create dir named " << suffix << ".";
                 mainTray->showMessage("保存失败", //消息窗口标题
                                       "创建文件夹时出现错误", //消息内容
                                       QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
@@ -839,16 +947,19 @@ void UserInfoWindow::collectAttr(int &attr, int &atk, double &crt) {
 }
 
 void UserInfoWindow::refresh(Character &model) {
+    qDebug() << "Trying to calculate the model.";
     for (AttrData ad : SettingData::vec) {
         ad(model);
     }
     for (QString en : qs) {
         auto p = Factory<Equipment>::Instance().get(en);
         if (p == NULL) {
+            qCritical() << "Failed to find equipment named" << en.toStdString().c_str() << ".";
             mainTray->showMessage("分析失败", //消息窗口标题
                                   "计算装备属性时出现错误", //消息内容
                                   QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
                                   1000); //消息窗口显示时长
+            this->mode = false;
             this->close();
             return;
         }
@@ -857,10 +968,12 @@ void UserInfoWindow::refresh(Character &model) {
     for (SetData sd : setVec) {
         auto p = Factory<Equipment>::Instance().get(sd.name);
         if (p == NULL) {
+            qCritical() << "Failed to find set named" << sd.name.toStdString().c_str() << ".";
             mainTray->showMessage("分析失败", //消息窗口标题
                                   "计算套装属性时出现错误", //消息内容
                                   QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
                                   1000); //消息窗口显示时长
+            this->mode = false;
             this->close();
             return;
         }
@@ -873,10 +986,12 @@ void UserInfoWindow::refresh(Character &model) {
         auto p = Factory<Equipment>::Instance().get(qstr);
         if (p != NULL) (*p)(model);
         else {
+            qCritical() << "Failed to find class indexed" << model.classID << ".";
             mainTray->showMessage("分析失败", //消息窗口标题
                                   "计算职业属性时出现错误", //消息内容
                                   QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
                                   1000); //消息窗口显示时长
+            this->mode = false;
             this->close();
             return;
         }
@@ -943,10 +1058,12 @@ void UserInfoWindow::refresh(Character &model) {
         updateIcon(tr("左槽"), ui->supportIcon, model);
         updateIcon(tr("武器"), ui->weaponIcon, model);
     } catch (cv::Exception &e) {
+        qCritical() << "Failed to load equipment icon. " << e.what();
         mainTray->showMessage("分析失败", //消息窗口标题
                               "显示装备图标时出现错误", //消息内容
                               QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
                               1000); //消息窗口显示时长
+        this->mode = false;
         this->close();
         return;
     }
@@ -1038,12 +1155,16 @@ void UserInfoWindow::refresh(Character &model) {
         ui->minCrtInfo->setStyleSheet("color: #96FF1E");
     } else if (model.minCrt < 95) {
         ui->minCrtInfo->setStyleSheet("color: red");
+    } else {
+        ui->minCrtInfo->setStyleSheet("color: white");
     }
 
     if (model.maxCrt >= 100) {
         ui->maxCrtInfo->setStyleSheet("color: #96FF1E");
-    } else if (model.minCrt < 95) {
+    } else if (model.maxCrt < 95) {
         ui->maxCrtInfo->setStyleSheet("color: red");
+    } else {
+        ui->maxCrtInfo->setStyleSheet("color: white");
     }
 
     if (ELE >= std::max(model.FIRE_OUT, std::max(model.ICE_OUT, std::max(model.LIGHT_OUT, model.DARK_OUT)))) {
@@ -1061,8 +1182,8 @@ void UserInfoWindow::refresh(Character &model) {
     tmpQPm.load("://resources/character/" + QString::number(model.classID) + ".png");
     ui->characterLbl->setPixmap(tmpQPm);
 
-    QImage nameWhiteImg = drawText("[" + classVec.at(model.classID).name + "]", Qt::white);
-    QImage nameBlackImg = drawText("[" + classVec.at(model.classID).name + "]", Qt::black);
+    QImage nameWhiteImg = drawText("[" + className + "]", Qt::white);
+    QImage nameBlackImg = drawText("[" + className + "]", Qt::black);
     QImage nameImg(nameWhiteImg.width() + 2, nameWhiteImg.height() + 2, QImage::Format_ARGB32);
     nameImg.fill(qRgba(0, 0, 0, 0));
     QVector<int>offset_x{-1, 0, 1, 1, 1, 0, -1, -1};
@@ -1111,10 +1232,12 @@ void UserInfoWindow::refresh(Character &model) {
         auto p = Factory<Equipment>::Instance().get(qstr);
         if (p != NULL) (*p)(modelbuffer);
         else {
+            qCritical() << "Failed to find class indexed" << model.classID << ".";
             mainTray->showMessage("分析失败", //消息窗口标题
                                   "计算职业属性时出现错误", //消息内容
                                   QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
                                   1000); //消息窗口显示时长
+            this->mode = false;
             this->close();
             return;
         }
@@ -1232,10 +1355,12 @@ void UserInfoWindow::refresh(Character &model) {
         auto p = Factory<Equipment>::Instance().get(qstr);
         if (p != NULL) (*p)(charbuffer);
         else {
+            qCritical() << "Failed to find class indexed" << model.classID << ".";
             mainTray->showMessage("分析失败", //消息窗口标题
                                   "计算职业属性时出现错误", //消息内容
                                   QSystemTrayIcon::MessageIcon::Critical, //消息窗口图标
                                   1000); //消息窗口显示时长
+            this->mode = false;
             this->close();
             return;
         }
@@ -1251,6 +1376,61 @@ void UserInfoWindow::refresh(Character &model) {
     } else {
         ui->resultLbl->setText(QString::asprintf("%.1f%%", DMGRatio));
         ui->resultLbl->setStyleSheet("color: red");
+    }
+
+    if (this->mode && SettingData::isAutoSave) {
+        outQJO.insert("DMGRatio", DMGRatio);
+        outQJO.insert("antiEle", SettingData::antiELE);
+        outQJO.insert("buffAtk", SettingData::bufferAtk);
+        outQJO.insert("buffAttr", SettingData::bufferAttr);
+        outQJO.insert("buffEle", 60);
+        outQJO.insert("charDMG", charDMG);
+        outQJO.insert("classID", model.classID);
+        outQJO.insert("className", className);
+        outQJO.insert("entryCnt", model.entryCnt);
+        outQJO.insert("reformCnt", model.reformCnt);
+        outQJO.insert("modelDMG", modelDMG);
+        QJsonObject modelQJO;
+        modelQJO.insert("atk", model.atk);
+        modelQJO.insert("atk_in", model.atk + modelbuffer.atk);
+        modelQJO.insert("attr", model.attr);
+        modelQJO.insert("attr_in", int(model.attr) + int(modelbuffer.attr));
+        modelQJO.insert("dark", model.DARK_OUT);
+        modelQJO.insert("dark_in", model.DARK_IN);
+        modelQJO.insert("element", std::max(model.FIRE_OUT, std::max(model.ICE_OUT, std::max(model.LIGHT_OUT, model.DARK_OUT))));
+        modelQJO.insert("element_in", modelFinalELE + (SettingData::isBuffer ? 60 : 0) - SettingData::antiELE);
+        modelQJO.insert("fire", model.FIRE_OUT);
+        modelQJO.insert("fire_in", model.FIRE_IN);
+        modelQJO.insert("ice", model.ICE_OUT);
+        modelQJO.insert("ice_in", model.ICE_IN);
+        modelQJO.insert("light", model.LIGHT_OUT);
+        modelQJO.insert("light_in", model.LIGHT_IN);
+        outQJO.insert("model", modelQJO);
+        QJsonObject charQJO;
+        charQJO.insert("atk", atk);
+        charQJO.insert("atk_in", atk + charbuffer.atk);
+        charQJO.insert("attr", attr);
+        charQJO.insert("attr_in", attr + int(charbuffer.attr));
+        charQJO.insert("dark", DARK);
+        charQJO.insert("element", ELE);
+        charQJO.insert("element_in", charFinalELE + (SettingData::isBuffer ? 60 : 0) - SettingData::antiELE);
+        charQJO.insert("fire", FIRE);
+        charQJO.insert("ice", ICE);
+        charQJO.insert("light", LIGHT);
+        charQJO.insert("maxCrt", model.maxCrt);
+        charQJO.insert("minCrt", model.minCrt);
+        charQJO.insert("sysAttr", charSysATTR);
+        outQJO.insert("character", charQJO);
+        QJsonArray equipmentArray;
+        for (QString str : qs) equipmentArray.push_back(str);
+        outQJO.insert("equipmentName", equipmentArray);
+        QJsonArray setArray;
+        for (SetData sd : setVec) {
+            if (setCnt.at(sd.id) >= 2) setArray.push_back(sd.name + " 2");
+            if (setCnt.at(sd.id) >= 3) setArray.push_back(sd.name + " 3");
+            if (setCnt.at(sd.id) >= 5) setArray.push_back(sd.name + " 5");
+        }
+        outQJO.insert("setName", setArray);
     }
 }
 

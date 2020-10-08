@@ -4,6 +4,7 @@
 #include "userinfowindow.h"
 #include "settingpanel.h"
 #include <QMenu>
+#include <QtNetwork>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -32,7 +33,11 @@ class MainWindow : public QWidget {
 
     void actionActivated();
 
-    void childWindowClosed();
+    void on_settingPanelClosed();
+
+    void on_userinfoWindowClosed();
+
+    void on_resultupdate(QNetworkReply *);
 
   private:
     Ui::MainWindow *ui;
@@ -57,7 +62,10 @@ class MainWindow : public QWidget {
     QAction *setAction;
     QAction *updateAction;
     QAction *exitAction;
+    QAction *helpAction;
     SettingPanel *sp;
+    UserInfoWindow *uiw;
+    QNetworkReply *m_currentReply;
 };
 
 #endif // MAINWINDOW_H

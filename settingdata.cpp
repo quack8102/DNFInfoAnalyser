@@ -2,6 +2,11 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <QFile>
+#include <QFontDatabase>
+#include <QDebug>
+#include <QJsonArray>
+#include <QtConcurrent>
+#include <QJsonDocument>
 
 AttrData::AttrData(const QStringList &li) {
     this->name = li.value(0, "");
@@ -12,6 +17,7 @@ AttrData::AttrData(const QStringList &li) {
     this->M_ATK = li.value(5, "0").toInt();
     this->I_ATK = li.value(6, "0").toInt();
     this->ELE = li.value(7, "0").toInt();
+
     this->passiveL = li.value(8, "0").toInt();
     this->passiveR = li.value(9, "0").toInt();
     this->passiveC = li.value(10, "0").toInt();
@@ -50,25 +56,26 @@ void AttrData::operator () (Character &model) {
 }
 
 QString SettingData::hotkeyStr = "";
-bool SettingData::isHotkey = false, SettingData::isAutoSave = false, SettingData::isHero = false, SettingData::isBuffer = false;
-int SettingData::ampLV = 0, SettingData::reformLV = 0, SettingData::weapon_refoLV = 0, SettingData::refineLV = 0, SettingData::earring_refoLV = 0;
+bool SettingData::isAutoSave = false, SettingData::isHero = false, SettingData::isBuffer = false;
+int SettingData::hotkeyType = 0, SettingData::ampLV = 0, SettingData::reformLV = 0, SettingData::weapon_refoLV = 0, SettingData::refineLV = 0, SettingData::earring_refoLV = 0;
 int SettingData::bufferAttr = 0, SettingData::bufferAtk = 0, SettingData::sysBufferIdx = 0, SettingData::antiELE = 0, SettingData::guardELE = 0;
 QVector<AttrData> SettingData::vec;
 MyGlobalShortCut *SettingData::shortcut = NULL;
+MyMouseHook *SettingData::hook = NULL;
 MainWindow *SettingData::mw = NULL;
 
 void SettingData::readfile() {
     vec.clear();
     QFile file("./setting.ini");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        //qDebug() << "Can't open the file!" << endl;
+        qCritical() << "Failed to open the setting file.";
         QMessageBox::critical(NULL, "错误", "设置文件读取失败");
     } else {
         QTextStream stream(&file);
         //stream.setCodec("UTF-8");
         QStringList li = stream.readLine().split(",");
         hotkeyStr = li.value(0, "F2");
-        isHotkey = (li.value(1, "1").toInt() == 1);
+        hotkeyType = li.value(1, "0").toInt();
         isAutoSave = (li.value(2, "1").toInt() == 1);
         isHero = (li.value(3, "1").toInt() == 1);
         ampLV = li.value(4, "10").toInt();
@@ -90,16 +97,17 @@ void SettingData::readfile() {
         file.close();
     }
 }
+
 void SettingData::savefile() {
     QFile file("./setting.ini");
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        //qDebug() << "Can't open the file!" << endl;
+        qCritical() << "Failed to open the setting file.";
         QMessageBox::critical(NULL, "错误", "设置文件打开失败");
     } else {
         QTextStream stream(&file);
         //stream.setCodec("UTF-8");
         QStringList li;
-        li << hotkeyStr << (isHotkey ? "1" : "0") << (isAutoSave ? "1" : "0") << (isHero ? "1" : "0")
+        li << hotkeyStr << QString::number(hotkeyType) << (isAutoSave ? "1" : "0") << (isHero ? "1" : "0")
            << QString::number(ampLV) << QString::number(reformLV) << QString::number(weapon_refoLV)
            << QString::number(refineLV) << QString::number(earring_refoLV)
            << (isBuffer ? "1" : "0") << QString::number(bufferAttr) << QString::number(bufferAtk)
@@ -109,6 +117,40 @@ void SettingData::savefile() {
             stream << ad.toQString() << endl;
         }
         file.close();
-        QMessageBox::information(NULL, "DNF面板自动分析", "设置文件保存成功");
+        QMessageBox::information(NULL, "DNF面板计算器", "设置文件保存成功");
     }
+}
+
+bool SettingData::setflag(const QString &key) {
+    QFile file("./history.json");
+    if (!file.open(QIODevice::ReadOnly)) {
+        qCritical() << "Failed to open the setting file.";
+        QMessageBox::critical(NULL, "错误", "设置文件打开失败");
+        return false;
+    }
+    QByteArray allData = file.readAll();
+    file.close();
+    QJsonParseError json_error;
+    QJsonDocument jsonDoc(QJsonDocument::fromJson(allData, &json_error));
+    if (json_error.error != QJsonParseError::NoError) {
+        qCritical() << "json parse error! " << json_error.error;
+        QMessageBox::critical(NULL, "错误", "设置文件打开失败");
+        return false;
+    }
+    QJsonObject obj = jsonDoc.object();
+    if (!obj.contains(key)) return false;
+    bool flag = obj.value(key).toBool();
+    if (flag == true) return false;
+    obj.insert(key, true);
+    QJsonDocument qjd(obj);
+    QByteArray qba = qjd.toJson();
+    QFile outFile("./history.json");
+    if (!outFile.open(QIODevice::WriteOnly)) {
+        qCritical() << "Failed to open the setting file.";
+        QMessageBox::critical(NULL, "错误", "设置文件打开失败");
+        return false;
+    }
+    outFile.write(qba);
+    outFile.close();
+    return true;
 }

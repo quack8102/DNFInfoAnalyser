@@ -16,7 +16,7 @@ class LayoutData {
 
 class ClassData {
   public:
-    const QString name;
+    const QString name, oldname;
     const int id, synergy, weaponType, STR, INT, PHY, IND, type;
     ClassData();
     ClassData(const QStringList &li);

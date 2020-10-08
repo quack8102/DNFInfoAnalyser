@@ -16,12 +16,12 @@ cv::Rect LayoutData::getSelect() {
 }
 
 ClassData::ClassData() :
-    name(""), id(0), synergy(0), weaponType(0), STR(0), INT(0), PHY(0), IND(0), type(0) {}
+    name(""), oldname(""), id(0), synergy(0), weaponType(0), STR(0), INT(0), PHY(0), IND(0), type(0) {}
 
 ClassData::ClassData(const QStringList &li) :
-    name(li.value(0, "")), id(li.value(1, "0").toInt()), synergy(li.value(2, "0").toInt()),
-    weaponType(li.value(3, "0").toInt()), STR(li.value(4, "0").toInt()), INT(li.value(5, "0").toInt()),
-    PHY(li.value(6, "0").toInt()), IND(li.value(7, "0").toInt()), type(li.value(8, "0").toInt()) {
+    name(li.value(0, "")), oldname(li.value(1, "")), id(li.value(2, "0").toInt()), synergy(li.value(3, "0").toInt()),
+    weaponType(li.value(4, "0").toInt()), STR(li.value(5, "0").toInt()), INT(li.value(6, "0").toInt()),
+    PHY(li.value(7, "0").toInt()), IND(li.value(8, "0").toInt()), type(li.value(9, "0").toInt()) {
     //qDebug() << name << " " << id << " " << sex << " " << synergy << endl;
 }
 

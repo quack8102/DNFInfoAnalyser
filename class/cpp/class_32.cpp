@@ -10,10 +10,11 @@ void Class_32::operator() (Character &model) { // 伊斯塔战灵
     model.minCrt += 0.5 * dl2;
     model.maxCrt += 0.5 * dl2;
     // 炫纹
+    QVector<int> data{0, 12, 22, 31, 41, 51, 61, 70, 80, 90, 100, 109, 119, 129, 139, 148, 158, 168, 178, 187, 197, 207, 217, 226, 236, 246, 256, 265, 275, 285, 294, 304, 314, 324, 333, 343, 353, 363, 372, 382, 392, 402, 411, 421, 431, 441, 450, 460, 470, 480, 489, 499, 509, 518, 528, 538, 548, 557, 567, 577, 587, 596, 606, 616, 626, 635, 645, 655, 665, 674, 684};
     int l1 = model.passiveLVIN.at(15) + model.passiveLVOUT.at(15) + 46;
     if (l1 > 60) l1 = 60;
-    model.minCrt += l1 + 0.2 - 0.1 * int((l1 + 1) / 4);
-    model.maxCrt += l1 + 0.2 - 0.1 * int((l1 + 1) / 4);
+    model.minCrt += data.at(l1) / 10.0;
+    model.maxCrt += data.at(l1) / 10.0;
     // 武器精通
     if (model.weaponType == 16) { // 矛
         model.minCrt += 0.6 * dl1;

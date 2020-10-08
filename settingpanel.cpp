@@ -3,17 +3,37 @@
 #include "settingdata.h"
 #include <QMessageBox>
 #include <QDebug>
+#include <QDesktopServices>
 
 SettingPanel::SettingPanel(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SettingPanel) {
+    qInfo() << "Trying to load the SettingPanel.";
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint);
     setFixedSize(this->width(), this->height());
     ui->hotkeyEdit->installEventFilter(this);
     ui->hotkeyEdit->setReadOnly(true);
+    ui->hotkeyEdit->setContextMenuPolicy(Qt::NoContextMenu);
     disconnect(SettingData::shortcut, SIGNAL(activated()), 0, 0);
     delete SettingData::shortcut;
+    SettingData::hook->unInstallHook();
+    delete SettingData::hook;
+    if (SettingData::setflag("set")) {
+        QMessageBox messageBox(QMessageBox::Icon::Information,
+                               "使用指引", "这是您首次打开设置面板，需要打开使用说明页面吗？",
+                               QMessageBox::Yes | QMessageBox::No, NULL);
+        int result = messageBox.exec();
+        switch (result) {
+        case QMessageBox::Yes:
+            QDesktopServices::openUrl(QUrl(QLatin1String("https://quack8102.gitee.io/#/settingpanel")));
+            break;
+        case QMessageBox::No:
+            break;
+        default:
+            break;
+        }
+    }
     refresh();
 }
 
@@ -22,9 +42,9 @@ SettingPanel::~SettingPanel() {
 }
 
 void SettingPanel::refresh() {
-    ui->hotkeyCKB->setChecked(SettingData::isHotkey);
+    ui->hotkeyCMB->setCurrentIndex(SettingData::hotkeyType);
 
-    ui->hotkeyEdit->setEnabled(ui->hotkeyCKB->isChecked());
+    ui->hotkeyEdit->setEnabled(ui->hotkeyCMB->currentIndex() != 2);
 
     ui->hotkeyEdit->setText(SettingData::hotkeyStr);
 
@@ -95,47 +115,60 @@ void SettingPanel::refresh() {
 void SettingPanel::closeEvent(QCloseEvent *event) {
     SettingData::shortcut = new MyGlobalShortCut(SettingData::hotkeyStr, SettingData::mw);
     connect(SettingData::shortcut, SIGNAL(activated()), SettingData::mw, SLOT(hotkeyActivated()));
-    emit windowClosed();
+    SettingData::hook = new MyMouseHook();
+    SettingData::hook->installHook();
+    emit settingPanelClosed();
 }
 
 bool SettingPanel::eventFilter(QObject *obj, QEvent *event) {
     if (qobject_cast<QLineEdit *>(obj) == ui->hotkeyEdit && event->type() == QEvent::KeyPress) {
-        QKeyEvent *e = static_cast<QKeyEvent *>(event);
-        int uKey = e->key();
-        Qt::Key key = static_cast<Qt::Key>(uKey);
-        if (key == Qt::Key_unknown) {
-            //nothing {unknown key}
-        }
+        if (ui->hotkeyCMB->currentIndex() == 0) {
+            QKeyEvent *e = static_cast<QKeyEvent *>(event);
+            int uKey = e->key();
+            Qt::Key key = static_cast<Qt::Key>(uKey);
+            if (key == Qt::Key_unknown) {
+                //nothing {unknown key}
+            }
 
-        if (key == Qt::Key_Control || key == Qt::Key_Shift || key == Qt::Key_Alt ) {
+            if (key == Qt::Key_Control || key == Qt::Key_Shift || key == Qt::Key_Alt ) {
+                return true;
+            }
+
+            //获取修饰键(Ctrl,Alt,Shift)的状态
+            Qt::KeyboardModifiers modifiers = e->modifiers();
+            //判断某个修饰键是否被按下
+            if (modifiers & Qt::ShiftModifier)
+                uKey += Qt::SHIFT;
+            if (modifiers & Qt::ControlModifier)
+                uKey += Qt::CTRL;
+            if (modifiers & Qt::AltModifier)
+                uKey += Qt::ALT;
+
+            //popup information
+            ui->hotkeyEdit->setText(QKeySequence(uKey).toString(QKeySequence::NativeText));
             return true;
         }
-
-        //获取修饰键(Ctrl,Alt,Shift)的状态
-        Qt::KeyboardModifiers modifiers = e->modifiers();
-        //判断某个修饰键是否被按下
-        if (modifiers & Qt::ShiftModifier)
-            uKey += Qt::SHIFT;
-        if (modifiers & Qt::ControlModifier)
-            uKey += Qt::CTRL;
-        if (modifiers & Qt::AltModifier)
-            uKey += Qt::ALT;
-
-        //popup information
-        ui->hotkeyEdit->setText(QKeySequence(uKey).toString(QKeySequence::NativeText));
-        return true;
-    } else {
-        return false;
-        //return QMainWindow::eventFilter(obj, event);
+    } else if (qobject_cast<QLineEdit *>(obj) == ui->hotkeyEdit && event->type() == QEvent::MouseButtonPress) {
+        if (ui->hotkeyCMB->currentIndex() == 1) {
+            QMouseEvent *e = static_cast<QMouseEvent *>(event);
+            Qt::MouseButton uBtn = e->button();
+            if (uBtn == Qt::NoButton) return true;
+            if (uBtn == Qt::LeftButton) {
+                ui->hotkeyEdit->setText(tr("LeftButton"));
+            } else if (uBtn == Qt::RightButton) {
+                ui->hotkeyEdit->setText(tr("RightButton"));
+            } else if (uBtn == Qt::MidButton) {
+                ui->hotkeyEdit->setText(tr("MidButton"));
+            }
+            return false;
+        }
     }
-}
-
-void SettingPanel::on_hotkeyCKB_stateChanged(int arg1) {
-    ui->hotkeyEdit->setEnabled(ui->hotkeyCKB->isChecked());
+    return false;
+    //return QMainWindow::eventFilter(obj, event);
 }
 
 void SettingPanel::on_saveBtn_clicked() {
-    SettingData::isHotkey = ui->hotkeyCKB->isChecked();
+    SettingData::hotkeyType = ui->hotkeyCMB->currentIndex();
 
     SettingData::hotkeyStr = ui->hotkeyEdit->text();
 
@@ -186,7 +219,7 @@ void SettingPanel::on_modifyBtn_clicked() {
     SettingData::vec[idx].passiveL = ui->passiveLSpinBox->value();
     SettingData::vec[idx].passiveR = ui->passiveRSpinBox->value();
     SettingData::vec[idx].passiveC = ui->passiveCSpinBox->value();
-    QMessageBox::information(NULL, "DNF面板自动分析", "当前打造已修改，但设置文件尚未保存");
+    QMessageBox::information(NULL, "DNF面板计算器", "当前打造已修改，但设置文件尚未保存");
 }
 
 void SettingPanel::on_bufferCKB_stateChanged(int arg1) {
@@ -200,13 +233,13 @@ void SettingPanel::on_recoverBtn_clicked() {
     case QMessageBox::Yes: {
         QFile out("./setting.ini");
         if (!out.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            //qDebug() << "Can't open the file!" << endl;
+            qCritical() << "Failed to open the setting file.";
             QMessageBox::critical(NULL, "错误", "设置文件打开失败");
         } else {
             QTextStream outstream(&out);
             QFile in("://resources/default.ini");
             if (!in.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                QMessageBox::critical(NULL, "错误", "资源文件解包失败");
+                QMessageBox::critical(NULL, "错误", "资源文件读取失败");
             } else {
                 QTextStream instream(&in);
                 forever {
@@ -219,7 +252,7 @@ void SettingPanel::on_recoverBtn_clicked() {
             out.close();
             SettingData::readfile();
             refresh();
-            QMessageBox::information(NULL, "DNF面板自动分析", "设置已还原为默认值");
+            QMessageBox::information(NULL, "DNF面板计算器", "设置已还原为默认值");
         }
     }
     break;
@@ -228,4 +261,12 @@ void SettingPanel::on_recoverBtn_clicked() {
     default:
         break;
     }
+}
+
+void SettingPanel::on_hotkeyCMB_currentIndexChanged(int index) {
+    ui->hotkeyEdit->setEnabled(ui->hotkeyCMB->currentIndex() != 2);
+    if (ui->hotkeyCMB->currentIndex() == 0)
+        ui->hotkeyEdit->setText("F2");
+    else if (ui->hotkeyCMB->currentIndex() == 1)
+        ui->hotkeyEdit->setText("RightButton");
 }

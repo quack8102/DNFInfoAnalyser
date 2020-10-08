@@ -162,4 +162,122 @@ cv::Mat darken(const cv::Mat &mat) {
     return _m;
 }
 
+// helper function:
+// finds a cosine of angle between vectors
+// from pt0->pt1 and from pt0->pt2
+double angle(cv::Point pt1, cv::Point pt2, cv::Point pt0) {
+    double dx1 = pt1.x - pt0.x;
+    double dy1 = pt1.y - pt0.y;
+    double dx2 = pt2.x - pt0.x;
+    double dy2 = pt2.y - pt0.y;
+    return (dx1 * dx2 + dy1 * dy2) / sqrt((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2) + 1e-10);
+}
+
+// returns sequence of squares detected on the image.
+// the sequence is stored in the specified memory storage
+void findSquares(const cv::Mat &image, std::vector<std::vector<cv::Point> > &squares) {
+    int thresh = 50, N = 5;
+
+    squares.clear();
+
+    // blur will enhance edge detection
+    cv::Mat timg(image);
+    //cv::medianBlur(image, timg, 9);
+    cv::Mat gray0(timg.size(), CV_8U), gray;
+
+    std::vector<std::vector<cv::Point> > contours;
+
+    // find squares in every color plane of the image
+    for ( int c = 0; c < 3; c++ ) {
+        int ch[] = {c, 0};
+        cv::mixChannels(&timg, 1, &gray0, 1, ch, 1);
+
+        // try several threshold levels
+        for ( int l = 0; l < N; l++ ) {
+            // hack: use Canny instead of zero threshold level.
+            // Canny helps to catch squares with gradient shading
+            if ( l == 0 ) {
+                // apply Canny. Take the upper threshold from slider
+                // and set the lower to 0 (which forces edges merging)
+                cv::Canny(gray0, gray, 1, 5, 3, true);
+                // dilate canny output to remove potential
+                // holes between edge segments
+                cv::dilate(gray, gray, cv::Mat(), cv::Point(-1, -1));
+            } else {
+                // apply threshold if l!=0:
+                //     tgray(x,y) = gray(x,y) < (l+1)*255/N ? 255 : 0
+                gray = gray0 >= (l + 1) * 255 / N;
+            }
+
+            // find contours and store them all as a list
+            cv::findContours(gray, contours, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE);
+
+            std::vector<cv::Point> approx;
+
+            // test each contour
+            for ( size_t i = 0; i < contours.size(); i++ ) {
+                // approximate contour with accuracy proportional
+                // to the contour perimeter
+                cv::approxPolyDP(cv::Mat(contours[i]), approx, arcLength(cv::Mat(contours[i]), true) * 0.02, true);
+
+                // square contours should have 4 vertices after approximation
+                // relatively large area (to filter out noisy contours)
+                // and be convex.
+                // Note: absolute value of an area is used because
+                // area may be positive or negative - in accordance with the
+                // contour orientation
+                if ( approx.size() == 4 &&
+                        fabs(cv::contourArea(cv::Mat(approx))) > 1000 &&
+                        cv::isContourConvex(cv::Mat(approx)) ) {
+                    double maxCosine = 0;
+
+                    for ( int j = 2; j < 5; j++ ) {
+                        // find the maximum cosine of the angle between joint edges
+                        double cosine = fabs(angle(approx[j % 4], approx[j - 2], approx[j - 1]));
+                        maxCosine = MAX(maxCosine, cosine);
+                    }
+
+                    // if cosines of all angles are small
+                    // (all angles are ~90 degree) then write quandrange
+                    // vertices to resultant sequence
+                    if ( maxCosine < 0.3 )
+                        squares.push_back(approx);
+                }
+            }
+        }
+    }
+}
+
+
+// the function draws all the squares in the image
+void drawSquares( cv::Mat &image, const std::vector<std::vector<cv::Point> > &squares ) {
+    for ( size_t i = 0; i < squares.size(); i++ ) {
+        const cv::Point *p = &squares[i][0];
+
+        int n = (int)squares[i].size();
+        //dont detect the border
+        if (p-> x > 3 && p->y > 3)
+            cv::polylines(image, &p, &n, 1, true, cv::Scalar(0, 255, 0), 1, cv::LINE_AA);
+    }
+
+    cv::imshow("result", image);
+}
+
+void houghTest(const cv::Mat &src) {
+    cv::Mat img(src);
+    //cv::medianBlur(src, img, 5);
+    cv::Mat dst, dst2, cdst;
+    cv::cvtColor(img, dst, CV_BGR2GRAY);
+    cv::Canny(dst, dst2, 1, 1, 3, true);
+    cv::cvtColor(dst2, cdst, CV_GRAY2BGR);
+    std::vector<cv::Vec4i> lines;
+    cv::HoughLinesP(dst2, lines, 1, CV_PI / 180 * 90, 50, 50, 0);
+    for (size_t i = 0; i < lines.size(); ++i) {
+        cv::Vec4i I = lines[i];
+        cv::line(cdst, cv::Point(I[0], I[1]), cv::Point(I[2], I[3]), cv::Scalar(0, 0, 255), 1, cv::LINE_AA);
+    }
+
+    cv::imshow("result", cdst);
+}
+
 }
