@@ -18,9 +18,9 @@
 
 ### source code
 
-下载源码，用qt creator打开工程文件，然后编译。
+下载源码，用visual studio打开工程文件，然后编译。
 
-> 请确保在qt creator中已经配置好了openssl库和opencv库的开发环境。
+> 请确保已经使用vcpkg安装了opencv库和openssl库，并且已经为visual studio安装了qt扩展。
 
 ## 使用
 
@@ -28,7 +28,7 @@
 
 ## 目录结构
 
-### ./
+### ./DNFInfoAnalyser
 attrcalculator 装备属性计算相关函数
 
 character 人物属性类
@@ -36,8 +36,6 @@ character 人物属性类
 csvdataparser 处理csv数据的类
 
 cvalgorithm opencv算法相关函数
-
-DNFInfoAnalyser.pro qt creator 工程文件
 
 equipment 装备抽象类
 
@@ -47,23 +45,37 @@ main 程序入口
 
 mainwindow 主窗口（即托盘）
 
+messagewindow 消息窗口
+
 settingdata 设置数据
 
 settingpanel 设置面板
 
 userinfowindow 包含分析结果的窗口
 
-### ./MyGlobalShortCut
-第三方库，全局热键
+#### MyGlobalShortCut
 
-### ./equipment
-装备代码
+全局热键（第三方）
 
-### ./class
-职业代码
+#### class
 
-### ./resources
-资源文件，主要是贴图文件和csv文件
+职业相关计算
+
+#### equipment
+
+装备相关计算
+
+#### resources
+
+资源文件
+
+### ./DNFInfoAnalyser.sln
+
+Visual Studio Solution
+
+### ./LICENSE
+
+协议
 
 ## 程序主要流程
 
