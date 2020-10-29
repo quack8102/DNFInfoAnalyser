@@ -37,7 +37,7 @@ HWND currentHWND;
 
 const int classWidth = 96, classHeight = 14, charWidth = 12, charHeight = 14;
 const int titleWidth = 49, titleHeight = 14;
-const QString version = "v1.1.1";
+const QString version = "v1.1.2";
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
