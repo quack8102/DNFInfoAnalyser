@@ -31,7 +31,8 @@ Character::Character(const Character &ch):
     classID(ch.classID), ampLV(SettingData::ampLV), weapon_refoLV(SettingData::weapon_refoLV), earring_refoLV(SettingData::earring_refoLV),
     refineLV(SettingData::refineLV), reformLV(SettingData::reformLV), weaponType(ch.weaponType), armorType(ch.armorType),
     isPhy(ch.isPhy), isInd(ch.isInd), isHero(SettingData::isHero), mode(false),
-    activeLVOUT(ch.activeLVOUT), passiveLVOUT(ch.passiveLVOUT), activeLVIN(ch.activeLVIN), passiveLVIN(ch.passiveLVIN) {
+    activeLVOUT(ch.activeLVOUT), passiveLVOUT(ch.passiveLVOUT), activeLVIN(ch.activeLVIN), passiveLVIN(ch.passiveLVIN),
+    equipName(ch.equipName), setCnt(ch.setCnt) {
     minCrt = maxCrt = 0;
     attr = atk = inatk = 0;
     FIRE_OUT = ICE_OUT = LIGHT_OUT = DARK_OUT = FIRE_IN = ICE_IN = LIGHT_IN = DARK_IN = 0;
