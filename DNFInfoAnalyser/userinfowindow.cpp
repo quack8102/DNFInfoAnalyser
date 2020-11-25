@@ -632,6 +632,42 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
         });
     }
 
+    if (className == classVec[35].name) {
+        switchclass = true;
+        classMenu = new QMenu(this);
+        QAction* tmpAction1 = new QAction(this);
+        QAction* tmpAction2 = new QAction(this);
+        classMenu->addAction(tmpAction1);
+        classMenu->addAction(tmpAction2);
+        auto setActions = [=]() {
+            tmpAction1->setText(QString::fromLocal8Bit("奶爸"));
+            tmpAction2->setText(QString::fromLocal8Bit("奶妈"));
+            if (classID == 35) {
+                tmpAction1->setText(tmpAction1->text() + QString::fromLocal8Bit(" √"));
+            }
+            else {
+                tmpAction2->setText(tmpAction2->text() + QString::fromLocal8Bit(" √"));
+            }
+        };
+        setActions();
+        connect(tmpAction1, &QAction::triggered, [=]() {
+            classID = 35;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            collectAttr(attr, atk, crt);
+            setActions();
+            Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
+            refresh(model);
+            });
+        connect(tmpAction2, &QAction::triggered, [=]() {
+            classID = 39;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            collectAttr(attr, atk, crt);
+            setActions();
+            Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
+            refresh(model);
+            });
+    }
+
     if (classID == 20 || classID == 24 || classID == 32 || className == classVec[11].oldname || className == classVec[15].oldname) {
         switchtype = true;
         classMenu = new QMenu(this);
