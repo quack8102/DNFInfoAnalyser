@@ -18,10 +18,10 @@ void Gunblader_3::operator() (Character &model) {
         }
 
         model.addAllElementOUT(50);
-        model.addActiveLevelOUT(1, 85, 1);
-        model.addActiveLevelOUT(100, 100, 1);
-        model.addPassiveLevelOUT(1, 85, 1);
-        model.addPassiveLevelOUT(100, 100, 1);
+        model.addActiveLevelOUT(1, 48, 1);
+        model.addActiveLevelOUT(60, 80, 1);
+        model.addPassiveLevelOUT(1, 48, 1);
+        model.addPassiveLevelOUT(60, 80, 1);
     }
 
 REGIST(Gunblader_3, QString::fromLocal8Bit("金刚密藏刀"));

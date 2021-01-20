@@ -7,8 +7,8 @@ void Coat_12::operator() (Character &model) {
         model.attr += CALC::getMasterAttr(lv, qual, model.ampLV, type);
         model.attr += CALC::getAmpAttr(lv, qual, model.ampLV);
 
-        model.addActiveLevelOUT(25, 45, 1);
-        model.addPassiveLevelOUT(25, 45, 1);
+        model.addActiveLevelOUT(1, 45, 1);
+        model.addPassiveLevelOUT(1, 45, 1);
     }
 
 REGIST(Coat_12, QString::fromLocal8Bit("英明循环之生命"));

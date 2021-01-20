@@ -5,6 +5,7 @@ void Ring_12::operator() (Character &model) {
         if (model.isPhy) model.attr += CALC::getBaseSTR(lv, qual, type, model.armorType);
         else model.attr += CALC::getBaseINT(lv, qual, type, model.armorType);
 
+        //model.attr += 30 * model.reformLV;
         model.reformCnt++;
     }
 

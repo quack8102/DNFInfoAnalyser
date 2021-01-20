@@ -37,7 +37,7 @@ extern QVector<QVector<EquipmentData> > equipmentInfoVec, weaponInfoVec;
 extern QVector<Mat> equipmentImgVec, weaponImgVec;
 
 
-const int matchIconPosX = 82, matchIconPosY = 64, userInfoWidth = 282, userInfoHeight = 401;
+const int matchIconPosX = 82, matchIconPosY = 64, userInfoWidth = 282, userInfoHeight = 430;
 const int classPosX = 64, classPosY = 195, classWidth = 170, classHeight = 14;
 const int titlePosX = 108, titlePosY = 5, titleWidth = 49, titleHeight = 14;
 const int iconWidth = 28, iconHeight = 28;

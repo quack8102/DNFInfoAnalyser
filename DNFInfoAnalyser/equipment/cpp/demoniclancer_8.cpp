@@ -17,10 +17,12 @@ void Demoniclancer_8::operator() (Character &model) {
             model.atk += CALC::getRefoAtk(lv, qual, model.weapon_refoLV, type, wk);
         }
         if (model.classID == 51) {
-            model.addActiveLevelIN(50, 50, 2);
-            model.addActiveLevelIN(85, 85, 2);
-            model.addActiveLevelIN(100, 100, 2);
-            model.addPassiveLevelIN(100, 100, 2);
+            model.addActiveLevelOUT(50, 50, 2);
+            model.addPassiveLevelOUT(50, 50, 2);
+            model.addActiveLevelOUT(85, 85, 2);
+            model.addPassiveLevelOUT(85, 85, 2);
+            model.addActiveLevelOUT(100, 100, 2);
+            model.addPassiveLevelOUT(100, 100, 2);
         }
     }
 

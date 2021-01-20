@@ -17,8 +17,8 @@ void Thief_19::operator() (Character &model) {
             model.atk += CALC::getRefoAtk(lv, qual, model.weapon_refoLV, type, wk);
         }
 
-        model.addActiveLevelIN(1, 45, 3);
-        model.addPassiveLevelIN(1, 45, 3);
+        model.addActiveLevelOUT(1, 45, 3);
+        model.addPassiveLevelOUT(1, 45, 3);
     }
 
 REGIST(Thief_19, QString::fromLocal8Bit("天幕道火扇"));

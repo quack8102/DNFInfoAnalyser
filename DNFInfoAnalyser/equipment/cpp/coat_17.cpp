@@ -7,8 +7,8 @@ void Coat_17::operator() (Character &model) {
         model.attr += CALC::getMasterAttr(lv, qual, model.ampLV, type);
         model.attr += CALC::getAmpAttr(lv, qual, model.ampLV);
 
-        model.addActiveLevelOUT(30, 48, 1);
-        model.addPassiveLevelOUT(30, 48, 1);
+        model.addActiveLevelOUT(1, 48, 1);
+        model.addPassiveLevelOUT(1, 48, 1);
         model.atk += 70;
         model.attr += 160;
     }

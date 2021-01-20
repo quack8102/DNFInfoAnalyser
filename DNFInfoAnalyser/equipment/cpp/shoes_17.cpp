@@ -8,7 +8,7 @@ void Shoes_17::operator() (Character &model) {
         model.attr += CALC::getAmpAttr(lv, qual, model.ampLV);
 
         if (model.equipName->contains(QString::fromLocal8Bit("命运反抗者"))) {
-            model.addAllElementIN(24);
+            model.addAllElementIN(22);
         } else if (model.setCnt->at(34) >= 2) {
             model.addAllElementIN(20);
         }

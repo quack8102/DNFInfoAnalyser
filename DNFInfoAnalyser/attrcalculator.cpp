@@ -296,6 +296,22 @@ int getAmpAttr(int level, int quality, int ampLV) {
     else if (quality == 1) qb = 8, kk = 1.6;
     QVector<double> data{0, 1, 2, 3, 4, 6, 8, 10, 12, 13, 17, 33, 50, 67, 108, 150, 192, 267, 342, 417, 499.9};
     tt = data.at(ampLV);
-    return int((level + qk) * kk * tt / 100.0) + qb;
+    int res = int((level + qk) * kk * tt / 100.0) + qb;
+    if (level == 100 && quality == 0) {
+        if (ampLV <= 7) res += 5;
+        if (ampLV == 8) res += 27;
+        if (ampLV == 9) res += 38;
+        if (ampLV == 10) res += 44;
+        if (ampLV == 11) res += 24;
+        if (ampLV == 12 || ampLV == 13) res += 10;
+    } else if (level == 100 && quality == 1) {
+        if (ampLV <= 7) res += 5;
+        if (ampLV == 8) res += 28;
+        if (ampLV == 9) res += 40;
+        if (ampLV == 10) res += 47;
+        if (ampLV == 11) res += 26;
+        if (ampLV == 12 || ampLV == 13) res += 10;
+    }
+    return res;
 }
 }

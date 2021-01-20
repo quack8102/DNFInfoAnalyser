@@ -52,6 +52,11 @@
       <PreprocessorDefinitions>QT_MESSAGELOGCONTEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>msvc2017_64</QtInstall>
     <QtModules>core;network;gui;widgets;concurrent</QtModules>
@@ -215,6 +220,7 @@
     <ClCompile Include="equipment\cpp\bracelet_21.cpp" />
     <ClCompile Include="equipment\cpp\bracelet_22.cpp" />
     <ClCompile Include="equipment\cpp\bracelet_23.cpp" />
+    <ClCompile Include="equipment\cpp\bracelet_24.cpp" />
     <ClCompile Include="equipment\cpp\bracelet_3.cpp" />
     <ClCompile Include="equipment\cpp\bracelet_4.cpp" />
     <ClCompile Include="equipment\cpp\bracelet_5.cpp" />
@@ -310,6 +316,7 @@
     <ClCompile Include="equipment\cpp\earring_19.cpp" />
     <ClCompile Include="equipment\cpp\earring_2.cpp" />
     <ClCompile Include="equipment\cpp\earring_20.cpp" />
+    <ClCompile Include="equipment\cpp\earring_21.cpp" />
     <ClCompile Include="equipment\cpp\earring_3.cpp" />
     <ClCompile Include="equipment\cpp\earring_4.cpp" />
     <ClCompile Include="equipment\cpp\earring_5.cpp" />
@@ -437,6 +444,7 @@
     <ClCompile Include="equipment\cpp\magicstone_11.cpp" />
     <ClCompile Include="equipment\cpp\magicstone_12.cpp" />
     <ClCompile Include="equipment\cpp\magicstone_13.cpp" />
+    <ClCompile Include="equipment\cpp\magicstone_14.cpp" />
     <ClCompile Include="equipment\cpp\magicstone_2.cpp" />
     <ClCompile Include="equipment\cpp\magicstone_3.cpp" />
     <ClCompile Include="equipment\cpp\magicstone_4.cpp" />
@@ -455,6 +463,7 @@
     <ClCompile Include="equipment\cpp\necklace_15.cpp" />
     <ClCompile Include="equipment\cpp\necklace_16.cpp" />
     <ClCompile Include="equipment\cpp\necklace_17.cpp" />
+    <ClCompile Include="equipment\cpp\necklace_18.cpp" />
     <ClCompile Include="equipment\cpp\necklace_2.cpp" />
     <ClCompile Include="equipment\cpp\necklace_3.cpp" />
     <ClCompile Include="equipment\cpp\necklace_4.cpp" />
@@ -563,6 +572,7 @@
     <ClCompile Include="equipment\cpp\ring_15.cpp" />
     <ClCompile Include="equipment\cpp\ring_16.cpp" />
     <ClCompile Include="equipment\cpp\ring_17.cpp" />
+    <ClCompile Include="equipment\cpp\ring_18.cpp" />
     <ClCompile Include="equipment\cpp\ring_2.cpp" />
     <ClCompile Include="equipment\cpp\ring_3.cpp" />
     <ClCompile Include="equipment\cpp\ring_4.cpp" />
@@ -661,6 +671,7 @@
     <ClCompile Include="equipment\cpp\support_16.cpp" />
     <ClCompile Include="equipment\cpp\support_17.cpp" />
     <ClCompile Include="equipment\cpp\support_18.cpp" />
+    <ClCompile Include="equipment\cpp\support_19.cpp" />
     <ClCompile Include="equipment\cpp\support_2.cpp" />
     <ClCompile Include="equipment\cpp\support_3.cpp" />
     <ClCompile Include="equipment\cpp\support_4.cpp" />
@@ -751,6 +762,10 @@
     <ClCompile Include="equipment\cpp\title_31.cpp" />
     <ClCompile Include="equipment\cpp\title_32.cpp" />
     <ClCompile Include="equipment\cpp\title_33.cpp" />
+    <ClCompile Include="equipment\cpp\title_34.cpp" />
+    <ClCompile Include="equipment\cpp\title_35.cpp" />
+    <ClCompile Include="equipment\cpp\title_36.cpp" />
+    <ClCompile Include="equipment\cpp\title_37.cpp" />
     <ClCompile Include="equipment\cpp\title_4.cpp" />
     <ClCompile Include="equipment\cpp\title_5.cpp" />
     <ClCompile Include="equipment\cpp\title_6.cpp" />
@@ -880,6 +895,7 @@
     <ClInclude Include="equipment\h\bracelet_21.h" />
     <ClInclude Include="equipment\h\bracelet_22.h" />
     <ClInclude Include="equipment\h\bracelet_23.h" />
+    <ClInclude Include="equipment\h\bracelet_24.h" />
     <ClInclude Include="equipment\h\bracelet_3.h" />
     <ClInclude Include="equipment\h\bracelet_4.h" />
     <ClInclude Include="equipment\h\bracelet_5.h" />
@@ -975,6 +991,7 @@
     <ClInclude Include="equipment\h\earring_19.h" />
     <ClInclude Include="equipment\h\earring_2.h" />
     <ClInclude Include="equipment\h\earring_20.h" />
+    <ClInclude Include="equipment\h\earring_21.h" />
     <ClInclude Include="equipment\h\earring_3.h" />
     <ClInclude Include="equipment\h\earring_4.h" />
     <ClInclude Include="equipment\h\earring_5.h" />
@@ -1102,6 +1119,7 @@
     <ClInclude Include="equipment\h\magicstone_11.h" />
     <ClInclude Include="equipment\h\magicstone_12.h" />
     <ClInclude Include="equipment\h\magicstone_13.h" />
+    <ClInclude Include="equipment\h\magicstone_14.h" />
     <ClInclude Include="equipment\h\magicstone_2.h" />
     <ClInclude Include="equipment\h\magicstone_3.h" />
     <ClInclude Include="equipment\h\magicstone_4.h" />
@@ -1120,6 +1138,7 @@
     <ClInclude Include="equipment\h\necklace_15.h" />
     <ClInclude Include="equipment\h\necklace_16.h" />
     <ClInclude Include="equipment\h\necklace_17.h" />
+    <ClInclude Include="equipment\h\necklace_18.h" />
     <ClInclude Include="equipment\h\necklace_2.h" />
     <ClInclude Include="equipment\h\necklace_3.h" />
     <ClInclude Include="equipment\h\necklace_4.h" />
@@ -1228,6 +1247,7 @@
     <ClInclude Include="equipment\h\ring_15.h" />
     <ClInclude Include="equipment\h\ring_16.h" />
     <ClInclude Include="equipment\h\ring_17.h" />
+    <ClInclude Include="equipment\h\ring_18.h" />
     <ClInclude Include="equipment\h\ring_2.h" />
     <ClInclude Include="equipment\h\ring_3.h" />
     <ClInclude Include="equipment\h\ring_4.h" />
@@ -1326,6 +1346,7 @@
     <ClInclude Include="equipment\h\support_16.h" />
     <ClInclude Include="equipment\h\support_17.h" />
     <ClInclude Include="equipment\h\support_18.h" />
+    <ClInclude Include="equipment\h\support_19.h" />
     <ClInclude Include="equipment\h\support_2.h" />
     <ClInclude Include="equipment\h\support_3.h" />
     <ClInclude Include="equipment\h\support_4.h" />
@@ -1416,6 +1437,10 @@
     <ClInclude Include="equipment\h\title_31.h" />
     <ClInclude Include="equipment\h\title_32.h" />
     <ClInclude Include="equipment\h\title_33.h" />
+    <ClInclude Include="equipment\h\title_34.h" />
+    <ClInclude Include="equipment\h\title_35.h" />
+    <ClInclude Include="equipment\h\title_36.h" />
+    <ClInclude Include="equipment\h\title_37.h" />
     <ClInclude Include="equipment\h\title_4.h" />
     <ClInclude Include="equipment\h\title_5.h" />
     <ClInclude Include="equipment\h\title_6.h" />

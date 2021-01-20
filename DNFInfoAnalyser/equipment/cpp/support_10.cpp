@@ -5,7 +5,7 @@ void Support_10::operator() (Character &model) {
         if (model.isPhy) model.attr += CALC::getBaseSTR(lv, qual, type, model.armorType);
         else model.attr += CALC::getBaseINT(lv, qual, type, model.armorType);
 
-        model.addAllElementIN(8 * model.reformLV);
+        model.addAllElementIN(16 * model.reformLV);
         if (model.reformLV >= 1) {
             model.addActiveLevelIN(1, 85, 2);
             model.addActiveLevelIN(100, 100, 2);
