@@ -668,7 +668,179 @@ UserInfoWindow::UserInfoWindow(QWidget *parent, const cv::Mat &srcImg, QSystemTr
             });
     }
 
-    if (classID == 20 || classID == 24 || classID == 32 || className == classVec[11].oldname || className == classVec[15].oldname) {
+    if (className == classVec[17].name) {
+        switchclass = true;
+        classMenu = new QMenu(this);
+        QAction* tmpAction1 = new QAction(this);
+        QAction* tmpAction2 = new QAction(this);
+        classMenu->addAction(tmpAction1);
+        classMenu->addAction(tmpAction2);
+        auto setActions = [=]() {
+            tmpAction1->setText(QString::fromLocal8Bit("男漫游"));
+            tmpAction2->setText(QString::fromLocal8Bit("女漫游"));
+            if (classID == 17) {
+                tmpAction1->setText(tmpAction1->text() + QString::fromLocal8Bit(" √"));
+            }
+            else {
+                tmpAction2->setText(tmpAction2->text() + QString::fromLocal8Bit(" √"));
+            }
+        };
+        setActions();
+        connect(tmpAction1, &QAction::triggered, [=]() {
+            classID = 17;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            collectAttr(attr, atk, crt);
+            setActions();
+            Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
+            refresh(model);
+            });
+        connect(tmpAction2, &QAction::triggered, [=]() {
+            classID = 21;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            collectAttr(attr, atk, crt);
+            setActions();
+            Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
+            refresh(model);
+            });
+    }
+
+    if (className == classVec[18].name) {
+        switchclass = true;
+        classMenu = new QMenu(this);
+        QAction* tmpAction1 = new QAction(this);
+        QAction* tmpAction2 = new QAction(this);
+        classMenu->addAction(tmpAction1);
+        classMenu->addAction(tmpAction2);
+        auto setActions = [=]() {
+            tmpAction1->setText(QString::fromLocal8Bit("男大枪"));
+            tmpAction2->setText(QString::fromLocal8Bit("女大枪"));
+            if (classID == 18) {
+                tmpAction1->setText(tmpAction1->text() + QString::fromLocal8Bit(" √"));
+            }
+            else {
+                tmpAction2->setText(tmpAction2->text() + QString::fromLocal8Bit(" √"));
+            }
+        };
+        setActions();
+        connect(tmpAction1, &QAction::triggered, [=]() {
+            classID = 18;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            collectAttr(attr, atk, crt);
+            setActions();
+            Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
+            refresh(model);
+            });
+        connect(tmpAction2, &QAction::triggered, [=]() {
+            classID = 22;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            collectAttr(attr, atk, crt);
+            setActions();
+            Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
+            refresh(model);
+            });
+    }
+
+    if (className == classVec[19].name) {
+        switchclass = true;
+        classMenu = new QMenu(this);
+        QAction* tmpAction1 = new QAction(this);
+        QAction* tmpAction2 = new QAction(this);
+        classMenu->addAction(tmpAction1);
+        classMenu->addAction(tmpAction2);
+        auto setActions = [=]() {
+            tmpAction1->setText(QString::fromLocal8Bit("男机械"));
+            tmpAction2->setText(QString::fromLocal8Bit("女机械"));
+            if (classID == 19) {
+                tmpAction1->setText(tmpAction1->text() + QString::fromLocal8Bit(" √"));
+            }
+            else {
+                tmpAction2->setText(tmpAction2->text() + QString::fromLocal8Bit(" √"));
+            }
+        };
+        setActions();
+        connect(tmpAction1, &QAction::triggered, [=]() {
+            classID = 19;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            collectAttr(attr, atk, crt);
+            setActions();
+            Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
+            refresh(model);
+            });
+        connect(tmpAction2, &QAction::triggered, [=]() {
+            classID = 23;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            collectAttr(attr, atk, crt);
+            setActions();
+            Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
+            refresh(model);
+            });
+    }
+
+    if (className == classVec[20].name) {
+        switchclass = true;
+        classMenu = new QMenu(this);
+        QAction* tmpAction1 = new QAction(this);
+        QAction* tmpAction2 = new QAction(this);
+        QAction* tmpAction3 = new QAction(this);
+        QAction* tmpAction4 = new QAction(this);
+        classMenu->addAction(tmpAction1);
+        classMenu->addAction(tmpAction2);
+        classMenu->addAction(tmpAction3);
+        classMenu->addAction(tmpAction4);
+        auto setActions = [=]() {
+            tmpAction1->setText(QString::fromLocal8Bit("物理男弹药"));
+            tmpAction2->setText(QString::fromLocal8Bit("魔法男弹药"));
+            tmpAction3->setText(QString::fromLocal8Bit("物理女弹药"));
+            tmpAction4->setText(QString::fromLocal8Bit("魔法女弹药"));
+            if (classID == 20) {
+                if (isPhy) tmpAction1->setText(tmpAction1->text() + QString::fromLocal8Bit(" √"));
+                else tmpAction2->setText(tmpAction2->text() + QString::fromLocal8Bit(" √"));
+            }
+            else {
+                if (isPhy) tmpAction3->setText(tmpAction3->text() + QString::fromLocal8Bit(" √"));
+                else tmpAction4->setText(tmpAction4->text() + QString::fromLocal8Bit(" √"));
+            }
+        };
+        setActions();
+        connect(tmpAction1, &QAction::triggered, [=]() {
+            classID = 20;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            isPhy = true;
+            collectAttr(attr, atk, crt);
+            setActions();
+            Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
+            refresh(model);
+            });
+        connect(tmpAction2, &QAction::triggered, [=]() {
+            classID = 20;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            isPhy = false;
+            collectAttr(attr, atk, crt);
+            setActions();
+            Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
+            refresh(model);
+            });
+        connect(tmpAction3, &QAction::triggered, [=]() {
+            classID = 24;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            isPhy = true;
+            collectAttr(attr, atk, crt);
+            setActions();
+            Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
+            refresh(model);
+            });
+        connect(tmpAction4, &QAction::triggered, [=]() {
+            classID = 24;
+            decideFlags(classVec[classID], isPhy, isInd, aType);
+            isPhy = false;
+            collectAttr(attr, atk, crt);
+            setActions();
+            Character model(classID, isPhy ? classVec[classID].STR : classVec[classID].INT, crt, isPhy, isInd, wType, aType, setCnt, qs);
+            refresh(model);
+            });
+    }
+
+    if (className == classVec[20].oldname || className == classVec[24].oldname || classID == 32 || className == classVec[11].oldname || className == classVec[15].oldname) {
         switchtype = true;
         classMenu = new QMenu(this);
         QAction *tmpAction1 = new QAction(this);
